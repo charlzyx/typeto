@@ -2,7 +2,10 @@
 
 > TypeScript 如是说 / Thus Spoke TypeScript
 
-## 功能
+| package                  | version                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| `@typeto/formily-schema` | ![npm version](https://img.shields.io/npm/v/%40typeto%2Fformily-schema.svg?logo=nodedotjs) |
+| `@typeto/oas`            | ![npm version](https://img.shields.io/npm/v/%40typeto%2Foas.svg?logo=nodedotjs)            |
 
-- to `oas`
-- to `formily-schema`
+- TypeScript to OAS 3.0
+- TypeScript to Formily Schema
