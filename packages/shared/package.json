@@ -1,0 +1,27 @@
+{
+  "name": "@typeto/shared",
+  "version": "1.0.0",
+  "description": "Thus Spoke TypeScript",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charlzyx/typeto"
+  },
+  "license": "ISC",
+  "author": "charlzyx@qq.com",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "clean": "rm -rf dist",
+    "dev": "rollup -c -w"
+  },
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
+}

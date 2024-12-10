@@ -1,0 +1,67 @@
+name: 发布 npm
+
+on:
+  push:
+    tags:
+      - "v*.*.*" # 匹配像 v1.0.0-beta.0 这样的版本标签
+
+permissions:
+  contents: write
+  discussions: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Parse tag and set version
+        id: parse_tag
+        run: |
+          # 从 GitHub 的 tag 中提取版本信息
+          tag_name="${GITHUB_REF#refs/tags/}"
+          version="${tag_name#v}"
+
+          # 检查版本是否为 beta
+          if [[ "$tag_name" == *"-beta"* ]]; then
+            prerelease=true
+            tag="beta"
+          else
+            prerelease=false
+            tag="latest"
+          fi
+
+          echo "Tag: $tag_name"
+          echo "Version: $version"
+          echo "Is prerelease: $prerelease"
+          echo "::set-output name=prerelease::$prerelease"
+          echo "::set-output name=version::$version"
+          echo "::set-output name=tag::$tag"
+      - uses: oven-sh/setup-bun@v1
+      - name: Install dependencies
+        run: |
+          bun i
+          bun run build
+      # - name: Update package versions with changesets
+      #   run: |
+      #     npx changeset version  # 更新版本号
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+      - name: Update package versions with changesets
+        run: |
+          npx changeset version  # 更新版本号
+      - name: Publish to npm
+        run: |
+          npx changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: ${{ steps.parse_tag.outputs.prerelease }}
+          tag_name: ${{ steps.parse_tag.outputs.version }}
