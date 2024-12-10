@@ -13,7 +13,8 @@
     "pub:alpha": "npx changeset pre enter alpha",
     "pub:beta": "npx changeset pre enter beta",
     "pub:rc": "npx changeset pre enter rc",
-    "pub": "npx changeset"
+    "pub": "npx changeset",
+    "ver": "npx changeset version"
   },
   "workspaces": {
     "packages": [

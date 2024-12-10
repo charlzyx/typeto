@@ -56,9 +56,6 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
-      - name: Update package versions with changesets
-        run: |
-          npx changeset version  # 更新版本号
       - name: Publish to npm
         run: |
           npx changeset publish
