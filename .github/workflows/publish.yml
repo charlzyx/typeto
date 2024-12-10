@@ -23,10 +23,15 @@ jobs:
           tag_name="${GITHUB_REF#refs/tags/}"
           version="${tag_name#v}"
 
-          # 检查版本是否为 beta
-          if [[ "$tag_name" == *"-beta"* ]]; then
+          if [[ "$tag_name" == *"-alpha"* ]]; then
+            prerelease=true
+            tag="alpha"
+          elif [[ "$tag_name" == *"-beta"* ]]; then
             prerelease=true
             tag="beta"
+          elif [[ "$tag_name" == *"-rc"* ]]; then
+            prerelease=true
+            tag="rc"
           else
             prerelease=false
             tag="latest"

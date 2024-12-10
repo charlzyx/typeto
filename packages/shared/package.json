@@ -20,7 +20,10 @@
     "clean": "rm -rf dist",
     "dev": "rollup -c -w"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ts-morph": "^24.0.0",
+    "typescript": "^5.7.2"
+  },
   "publishConfig": {
     "access": "public"
   }
