@@ -1,6 +1,6 @@
 {
   "name": "@typeto/shared",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Thus Spoke TypeScript",
   "keywords": [],
   "repository": {
@@ -17,6 +17,8 @@
   ],
   "scripts": {
     "build": "rollup -c",
+    "changelog": "npm run logen",
+    "logen": "changelogen",
     "clean": "rm -rf dist",
     "dev": "rollup -c -w"
   },
