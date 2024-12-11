@@ -48,6 +48,7 @@ jobs:
         run: |
           bun i
           bun run build
+          bun run scripts/ver.ts
       # - name: Update package versions with changesets
       #   run: |
       #     npx changeset version  # 更新版本号
