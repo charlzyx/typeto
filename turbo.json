@@ -4,7 +4,6 @@
     "build": {
       "dependsOn": ["^build"]
     },
-    "changelog": {},
-    "publish": {}
+    "changelog": {}
   }
 }

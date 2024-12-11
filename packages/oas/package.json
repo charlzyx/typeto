@@ -18,8 +18,7 @@
   "scripts": {
     "build": "rollup -c",
     "changelog": "npm run turbo:logen",
-    "turbo:logen": "changelogen",
-    "publish": "npm publish" 
+    "turbo:logen": "changelogen"
   },
   "dependencies": {
      "@typeto/shared": "workspace:*"

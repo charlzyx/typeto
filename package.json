@@ -14,7 +14,6 @@
   "scripts": {
     "build": "npm run clean && turbo run build",
     "changelog": "turbo run changelog -- ",
-    "publish": "turbo run publish",
     "clean": "rm -rf packages/**/dist"
   },
   "dependencies": {
