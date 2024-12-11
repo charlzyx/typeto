@@ -1,6 +1,32 @@
 import { execSync } from "child_process";
 import * as inquirer from "@inquirer/prompts";
 
+export function getTags() {
+  try {
+    // 获取远程标签列表
+    const stdout = execSync("git ls-remote --tags").toString();
+
+    // 处理远程标签并提取标签名称
+    const remoteTags = stdout
+      .trim()
+      .split("\n")
+      .map((line) => {
+        const parts = line.split("\t");
+        return parts[1].replace("refs/tags/", ""); // 去掉标签前缀 'refs/tags/'
+      });
+
+    // 获取本地标签列表
+    const localStdout = execSync("git tag --sort=-creatordate").toString();
+    const localTags = localStdout.trim().split("\n");
+
+    // 合并远程和本地标签
+    const allTags = Array.from(new Set([...remoteTags, ...localTags]));
+    return allTags;
+  } catch (error) {
+    console.error(`执行 Git 命令时发生错误: ${error}`);
+  }
+}
+
 async function run() {
   // 步骤 1: 检查 git 状态
   try {
@@ -66,10 +92,18 @@ async function run() {
     process.exit(0);
   }
 
+  const tags = getTags();
+  const diffTag = await inquirer.select({
+    message: "选择对比tag:",
+    choices: tags.map((item) => {
+      return { name: item, value: item };
+    }),
+  });
+
   // 步骤 4: 创建 git 分支
   const branchName = `release/${newVersion}`;
   try {
-    // execSync(`git checkout -b ${branchName}`);
+    execSync(`git checkout -b ${branchName}`);
     console.log(`\u2714 创建了新分支: ${branchName}`);
   } catch (error) {
     console.error("创建分支时出错:", error.message);
@@ -78,7 +112,15 @@ async function run() {
 
   // 步骤 5: 生成 changelog
   try {
-    execSync(`bun run changelog -r ${branchName}`, { stdio: "inherit" });
+    execSync(
+      `bun run changelog -r ${newVersion.replace(
+        /^v/,
+        ""
+      )} --from ${diffTag} --output CHANGELOG.md`,
+      {
+        stdio: "inherit",
+      }
+    );
     console.log("\u2714 Changelog 生成成功。");
   } catch (error) {
     console.error("生成 Changelog 时出错:", error.message);
