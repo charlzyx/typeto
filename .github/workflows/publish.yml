@@ -59,7 +59,15 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Publish to npm
         run: |
-          npx changeset publish
+          # 遍历 packages 目录下的每个子目录
+          for dir in packages/*; do
+            # 确保该项是一个目录
+            if [ -d "$dir" ]; then
+              echo "Publishing package in $dir"
+              # 切换到该目录并执行 npm publish
+              (cd "$dir" && npm publish)
+            fi
+          done
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
 
