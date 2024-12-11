@@ -59,7 +59,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Publish to npm
         run: |
-          npx changeset publish
+          bun run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
 
