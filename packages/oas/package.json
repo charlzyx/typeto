@@ -5,7 +5,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/charlzyx/typeto"
+    "url": "git+https://github.com/charlzyx/typeto.git"
   },
   "license": "ISC",
   "author": "charlzyx@qq.com",
@@ -19,8 +19,7 @@
     "build": "rollup -c",
     "changelog": "npm run turbo:logen",
     "turbo:logen": "changelogen",
-    "publish": "npm run turbo:pub",
-    "turbo:pub": "npm publish"
+    "publish": "npm publish" 
   },
   "dependencies": {
      "@typeto/shared": "workspace:*"
