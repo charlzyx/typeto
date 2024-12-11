@@ -59,6 +59,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Publish to npm
         run: |
+          npm install @changesets/cli -g
           npx changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
