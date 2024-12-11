@@ -17,10 +17,10 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "changelog": "npm run logen",
-    "logen": "changelogen",
-    "clean": "rm -rf dist",
-    "dev": "rollup -c -w"
+    "changelog": "npm run turbo:logen",
+    "turbo:logen": "changelogen",
+    "publish": "npm run turbo:pub",
+    "turbo:pub": "npm publish"
   },
   "dependencies": {
      "@typeto/shared": "workspace:*"
