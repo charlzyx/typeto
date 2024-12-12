@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Project } from "ts-morph";
-import { transform } from "../index";
+import { transform } from "../src/index";
 
 describe("to-oas transformer", () => {
   const project = new Project({});

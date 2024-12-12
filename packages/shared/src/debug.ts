@@ -59,7 +59,8 @@ const typeIs = (type: Type) => {
     "isUndefined",
     "isVoid",
   ].reduce((ll, method) => {
-    if (type[method]()) {
+    if (!type) return ll;
+    if (type[method]?.()) {
       ll.push(method.replace("is", ""));
     }
     return ll;
@@ -231,10 +232,9 @@ export const debugSymbol = (symbol: Symbol): SymbolInfo => {
 export const debugInfo = (type?: Type, typeNode?: Node, symbol?: Symbol) => {
   const debug = {
     type: type ? debugType(type) : null,
-    typeSymbol: type.getSymbol() ? debugSymbol(type.getSymbol()) : null,
-    typeAliasSymbol: type.getAliasSymbol()
-      ? debugSymbol(type.getAliasSymbol())
-      : null,
+    typeSymbol: type && type.getSymbol() ? debugSymbol(type.getSymbol()) : null,
+    typeAliasSymbol:
+      type && type.getAliasSymbol() ? debugSymbol(type.getAliasSymbol()) : null,
     node: typeNode ? debugNode(typeNode) : null,
     symbol: symbol ? debugSymbol(symbol) : null,
   };
