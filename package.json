@@ -17,12 +17,10 @@
     "clean": "rm -rf packages/**/dist"
   },
   "dependencies": {
-    "@clack/prompts": "^0.8.2",
     "ts-morph": "^24.0.0",
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@inquirer/prompts": "^7.2.0",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-typescript": "^11.0.0",
