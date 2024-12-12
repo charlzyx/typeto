@@ -1,0 +1,55 @@
+{
+  "templates": {
+    "commitMessage": "chore(release): v{{newVersion}}",
+    "tagBody": "v{{newVersion}}",
+    "tagMessage": "v{{newVersion}}"
+  },
+  "types": {
+    "build": {
+      "semver": "patch",
+      "title": "📦 构建相关 / Build"
+    },
+    "chore": {
+      "title": "🏡 杂务处理 / Chore"
+    },
+    "ci": {
+      "title": "🤖 持续集成 / CI"
+    },
+    "docs": {
+      "semver": "patch",
+      "title": "📖 文档更新 / Documentation"
+    },
+    "examples": {
+      "title": "🏀 示例更新 / Examples"
+    },
+    "feat": {
+      "semver": "minor",
+      "title": "🚀 增强功能 / Enhancements"
+    },
+    "fix": {
+      "semver": "patch",
+      "title": "🩹 修复问题 / Fixes"
+    },
+    "perf": {
+      "semver": "patch",
+      "title": "🔥 性能优化 / Performance"
+    },
+    "refactor": {
+      "semver": "patch",
+      "title": "💅 代码重构 / Refactors"
+    },
+    "style": {
+      "title": "🎨 代码风格 / Styles"
+    },
+    "test": {
+      "title": "✅ 测试用例 / Tests"
+    },
+    "types": {
+      "semver": "patch",
+      "title": "🌊 类型定义 / Types"
+    },
+    "wip": {
+      "title": "🚧 未完成 / Work in Progress"
+    }
+  }
+}
