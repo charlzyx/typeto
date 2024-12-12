@@ -10,6 +10,7 @@ export function getTags() {
     const remoteTags = stdout
       .trim()
       .split("\n")
+      .filter((l) => Boolean(l.trim()))
       .map((line) => {
         const parts = line.split("\t");
         return parts[1].replace("refs/tags/", ""); // 去掉标签前缀 'refs/tags/'
