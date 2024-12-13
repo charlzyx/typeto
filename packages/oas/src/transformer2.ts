@@ -58,16 +58,20 @@ const schemaResolver = new TypeResolver<OutputSchema, ResolveContext>()
   .null(baseResolve("null"))
   .array((type, ctx, resovler) => {
     ctx.refs.set(type, type.getText());
+    const extra = ctx.extra;
+    ctx.extra = {};
     return {
-      ...ctx.extra,
+      ...extra,
       type: "array",
       items: resovler.resolve(type.getArrayElementType(), ctx),
     };
   })
   .union((type, ctx, resolver) => {
     ctx.refs.set(type, type.getText());
+    const extra = ctx.extra;
+    ctx.extra = {};
     return {
-      ...ctx.extra,
+      ...extra,
       oneOf: type
         .getUnionTypes()
         .map((subType) => resolver.resolve(subType, ctx)),
@@ -75,8 +79,10 @@ const schemaResolver = new TypeResolver<OutputSchema, ResolveContext>()
   })
   .intersection((type, ctx, resolver) => {
     ctx.refs.set(type, type.getText());
+    const extra = ctx.extra;
+    ctx.extra = {};
     return {
-      ...ctx.extra,
+      ...extra,
       allOf: type
         .getIntersectionTypes()
         .map((subType) => resolver.resolve(subType, ctx)),
@@ -84,8 +90,10 @@ const schemaResolver = new TypeResolver<OutputSchema, ResolveContext>()
   })
   .object((type, ctx, resolver) => {
     ctx.refs.set(type, type.getText());
+    const extra = ctx.extra;
+    ctx.extra = {};
     return {
-      ...ctx.extra,
+      ...extra,
       type: "object",
       properties: type.getProperties().reduce((map, propSymbol) => {
         const propNode =

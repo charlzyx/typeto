@@ -15,20 +15,14 @@ type NodeResolver<ResolvedNode, Context> = (
   self: TypeResolver<ResolvedNode, Context>
 ) => ResolvedNode;
 
-type NodeResolverHook<ResolvedNode, Context> = (
-  type: Type,
-  ctx: Context,
-  self: TypeResolver<ResolvedNode, Context>
-) => false | undefined | ResolvedNode;
-
 export class TypeResolver<ResolvedNode, Context> {
   // 用于处理类型的集合，存储映射
   private mappings: {
-    [key: string]: NodeResolverHook<ResolvedNode, Context>;
+    [key: string]: NodeResolver<ResolvedNode, Context>;
   } = {};
 
   private hooks = {
-    before: null as NodeResolverHook<ResolvedNode, Context>,
+    before: null as NodeResolver<ResolvedNode, Context>,
   };
 
   // 在每次解析之前都会调用, 返回 false 会阻止 resovler 调用
@@ -55,21 +49,20 @@ export class TypeResolver<ResolvedNode, Context> {
     });
 
     const before = this.hooks.before;
-    const next = before && before(type, ctx, this);
-    if (next === false) return undefined;
-    if (next != undefined) return next as ResolvedNode;
-
-    for (const key of keys) {
-      const isType = "is" + key.replace(/^\w/, (m) => m.toUpperCase());
-      const isMatch = type[isType]?.();
-      if (!isMatch) return;
-      const resolver = this.mappings[key];
-      const ans = resolver(type, ctx, this);
-      if (ans) {
-        return ans;
-      }
+    const next = before?.(type, ctx, this);
+    if (next) {
+      return next;
     }
-    return undefined; // 如果没有匹配的 resolver，返回 undefined
+
+    const keyType = keys.find((typeName) => {
+      const isType = "is" + typeName.replace(/^\w/, (m) => m.toUpperCase());
+      const isMatch = type[isType]?.();
+      return isMatch;
+    });
+    const resolver = this.mappings[keyType];
+    if (resolver) {
+      return resolver(type, ctx, this);
+    }
   }
   // 获取匿名类型
   anonymous(

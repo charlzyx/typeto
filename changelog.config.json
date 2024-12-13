@@ -5,10 +5,6 @@
     "tagMessage": "v{{newVersion}}"
   },
   "types": {
-    "build": {
-      "semver": "patch",
-      "title": "📦 构建相关 / Build"
-    },
     "chore": {
       "title": "🏡 杂务处理 / Chore"
     },
@@ -18,9 +14,6 @@
     "docs": {
       "semver": "patch",
       "title": "📖 文档更新 / Documentation"
-    },
-    "examples": {
-      "title": "🏀 示例更新 / Examples"
     },
     "feat": {
       "semver": "minor",
@@ -43,10 +36,6 @@
     },
     "test": {
       "title": "✅ 测试用例 / Tests"
-    },
-    "types": {
-      "semver": "patch",
-      "title": "🌊 类型定义 / Types"
     },
     "wip": {
       "title": "🚧 未完成 / Work in Progress"
