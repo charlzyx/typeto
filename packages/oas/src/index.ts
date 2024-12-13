@@ -1,5 +1,6 @@
 import { Project } from "ts-morph";
-import { transformDefinitions, transformOperations } from "./transformer";
+// import { transformDefinitions, transformOperations } from "./transformer";
+import { transformDefinitions, transformOperations } from "./transformer2";
 import { getEntryNodes } from "./entry";
 
 const clean = (x: any) =>

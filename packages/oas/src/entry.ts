@@ -12,7 +12,7 @@ const IgnoreRuleKeys = {
   leadingComment: ["@ignore", "@WIP", "@Draft"],
 };
 
-import { getNodeExtraInfo } from "@typeto/shared";
+import { getNodeExtraInfo } from "@typeto/core";
 
 // 判断是否应跳过该节点
 const shouldSkip = (node: ClassDeclaration | TypeAliasDeclaration) => {

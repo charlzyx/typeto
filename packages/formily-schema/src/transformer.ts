@@ -4,7 +4,7 @@ type OutputSchema = ISchema & {
   $ref?: string;
 };
 
-import { getNodeExtraInfo } from "@typeto/shared";
+import { getNodeExtraInfo } from "@typeto/core";
 import { ClassDeclaration, Type } from "ts-morph";
 export const SCHEMA_REF_PREFIX = "#";
 /**

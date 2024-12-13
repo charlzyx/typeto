@@ -1,5 +1,5 @@
 import { ClassDeclaration, Node, Project } from "ts-morph";
-import { getNodeExtraInfo } from "@typeto/shared";
+import { getNodeExtraInfo } from "@typeto/core";
 
 // 忽略规则的键
 const IgnoreRuleKeys = {

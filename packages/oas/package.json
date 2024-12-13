@@ -21,7 +21,7 @@
     "turbo:logen": "changelogen"
   },
   "dependencies": {
-     "@typeto/shared": "workspace:*"
+     "@typeto/core": "workspace:*"
   },
   "devDependencies": {
     "@hyperjump/json-schema": "^1.9.9"

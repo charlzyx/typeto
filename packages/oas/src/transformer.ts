@@ -5,7 +5,7 @@ type OutputSchema = OasSchema30 & {
 };
 
 import { ClassDeclaration, Node, Type, TypeAliasDeclaration } from "ts-morph";
-import { getNodeExtraInfo } from "@typeto/shared";
+import { getNodeExtraInfo } from "@typeto/core";
 
 // import { debugType, collectDebugInfo } from "./debug";
 
