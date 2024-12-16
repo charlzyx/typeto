@@ -4,7 +4,7 @@
 
 > 基本都是从 [goji](https://github.com/goji/goji) 抄的, 但是我用不到那么多功能
 
-![demo](./demo.gif)
+![demo](https://r2.chaogpt.space/gocz.gif)
 
 ## 特性 / Features
 
