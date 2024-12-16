@@ -20,6 +20,8 @@ describe("formily schema tests", () => {
     name: string;
     /** 地址信息 */
     address: Address;
+    /** 地址列表 */
+    addressList: Address[]
   }
 
   class Address {
@@ -31,41 +33,10 @@ describe("formily schema tests", () => {
         `
     );
 
-    const schema = transform(project);
-    expect(schema).toEqual({
-      properties: {
-        user: {
-          comment: "#User",
-          properties: {
-            address: {
-              comment: "#Address",
-              properties: {
-                city: {
-                  title: "城市",
-                  enum: [
-                    { label: "北京", value: "北京" },
-                    { label: "上海", value: "上海" },
-                  ],
-                },
-                street: {
-                  title: "街道",
-                  type: "string",
-                },
-              },
-              type: "object",
-            },
-            name: {
-              title: "用户名",
-              type: "string",
-            },
-          },
-          type: "object",
-        },
-      },
-      type: "object",
-    });
+    const result = transform(project);
+    expect(result).toMatchSnapshot();
 
-    project.removeSourceFile(sourceFile); // 删除虚拟文件
+    project.removeSourceFile(sourceFile);
   });
 
   it("应该跳过被忽略的节点 / should skip ignored nodes", () => {
@@ -116,29 +87,10 @@ class B {
       `
     );
 
-    const schema = transform(project);
-    expect(schema).toEqual({
-      type: "object",
-      properties: {
-        a: {
-          type: "object",
-          properties: {
-            b: {
-              type: "object",
-              properties: {
-                a: {
-                  $ref: "#CircleRef#A",
-                },
-              },
-              comment: "#B",
-            },
-          },
-          comment: "#A",
-        },
-      },
-    });
+    const result = transform(project);
 
-    project.removeSourceFile(sourceFile); // 删除虚拟文件
+    expect(result).toMatchSnapshot();
+    project.removeSourceFile(sourceFile);
   });
 
   it("应该正确转换基本类型 / should transform basic types correctly", () => {
@@ -157,22 +109,9 @@ class B {
         `
     );
 
-    const schema = transform(project);
-    expect(schema).toEqual({
-      properties: {
-        basicTypes: {
-          comment: "#BasicTypes",
-          type: "object",
-          properties: {
-            str: { type: "string" },
-            num: { type: "number" },
-            bool: { type: "boolean" },
-          },
-        },
-      },
-      type: "object",
-    });
+    const result = transform(project);
 
-    project.removeSourceFile(sourceFile); // 删除虚拟文件
+    expect(result).toMatchSnapshot();
+    project.removeSourceFile(sourceFile);
   });
 });

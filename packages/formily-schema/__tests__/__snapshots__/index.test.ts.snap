@@ -1,0 +1,119 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formily schema tests 应该正确转换用户信息模式 / should transform user information schema correctly 1`] = `
+"import { ISchema } from "@formily/json-schema";
+const Form: ISchema = {
+  "type": "object",
+  "properties": {
+    "user": User
+  }
+};
+
+const User: ISchema = {
+  "type": "object",
+  "properties": {
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "title": "用户名",
+      "type": "string"
+    },
+    "address": Address,
+    "addressList": {
+      "description": "地址列表",
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": "#Address"
+      }
+    }
+  }
+};
+
+const Address: ISchema = {
+  "type": "object",
+  "properties": {
+    "city": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "title": "城市",
+      "enum": [
+        {
+          "label": "北京",
+          "value": "北京"
+        },
+        {
+          "label": "上海",
+          "value": "上海"
+        }
+      ]
+    },
+    "street": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "title": "街道",
+      "type": "string"
+    }
+  }
+};
+"
+`;
+
+exports[`formily schema tests 应该处理循环引用 / should handle circular references 1`] = `
+"import { ISchema } from "@formily/json-schema";
+const Form: ISchema = {
+  "type": "object",
+  "properties": {
+    "a": A
+  }
+};
+
+const A: ISchema = {
+  "type": "object",
+  "properties": {
+    "b": B
+  }
+};
+
+const B: ISchema = {
+  "type": "object",
+  "properties": {
+    "a": A
+  }
+};
+"
+`;
+
+exports[`formily schema tests 应该正确转换基本类型 / should transform basic types correctly 1`] = `
+"import { ISchema } from "@formily/json-schema";
+const Form: ISchema = {
+  "type": "object",
+  "properties": {
+    "basicTypes": BasicTypes
+  }
+};
+
+const BasicTypes: ISchema = {
+  "type": "object",
+  "properties": {
+    "str": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "num": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "bool": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "boolean"
+    }
+  }
+};
+"
+`;

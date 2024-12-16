@@ -1,0 +1,87 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`zod schema tests 应该正确处理基本类型 / should handle basic types correctly 1`] = `
+"import { z } from "zod";
+
+export const BasicTypes = z.object({
+  str: z.string(),
+  num: z.number(),
+  bool: z.boolean(),
+  nullValue: z.null().nullable(),
+  undefinedValue: z.undefined()
+});"
+`;
+
+exports[`zod schema tests 应该正确处理字面量类型 / should handle literal types correctly 1`] = `
+"import { z } from "zod";
+
+export const LiteralTypes = z.object({
+  strLiteral: z.literal("hello"),
+  numLiteral: z.literal(42),
+  boolLiteral: z.literal(true)
+});"
+`;
+
+exports[`zod schema tests 应该正确处理联合类型 / should handle union types correctly 1`] = `
+"import { z } from "zod";
+
+export const User = z.object({
+  status: z.union([z.literal("active"), z.literal("inactive")]),
+  role: z.union([z.literal("admin"), z.literal("user"), z.literal("guest")])
+});"
+`;
+
+exports[`zod schema tests 应该正确处理判别联合 / should handle discriminated unions correctly 1`] = `
+"import { z } from "zod";
+
+export const Drawing = z.object({
+  shape: z.discriminatedUnion([z.object({
+  kind: z.literal("circle"),
+  radius: z.number()
+}), z.object({
+  kind: z.literal("square"),
+  sideLength: z.number()
+})])
+});"
+`;
+
+exports[`zod schema tests 应该正确处理交叉类型 / should handle intersection types correctly 1`] = `
+"import { z } from "zod";
+
+export const Person = z.object({
+  info: z.intersection([z.object({
+  name: z.string()
+}), z.object({
+  age: z.number()
+})])
+});"
+`;
+
+exports[`zod schema tests 应该正确处理嵌套对象和数组 / should handle nested objects and arrays correctly 1`] = `
+"import { z } from "zod";
+
+export const Address = z.object({
+  street: z.string(),
+  city: z.string()
+});
+
+export const User = z.object({
+  name: z.string(),
+  address: Address,
+  tags: z.array(z.string()),
+  contacts: z.array(Address)
+});"
+`;
+
+exports[`zod schema tests 应该正确处理循环引用 / should handle circular references correctly 1`] = `
+"import { z } from "zod";
+
+export const Employee: z.ZodSchema<Employee> = z.lazy(() =>  z.object({
+  name: z.string(),
+  supervisor: Employee.optional(),
+  team: z.object({
+  leader: Employee,
+  members: z.array(Employee)
+}).optional()
+}))"
+`;

@@ -53,7 +53,6 @@ const schemaResolver = new TypeResolver<OasSchema, ResolveContext>()
       const extra = consumeExtra(ctx);
       return {
         ...extra,
-        default: ctx.extra?.initialValue,
         $ref: ctx.refs.get(type),
       };
     } else if (type.getSymbol()) {
@@ -116,10 +115,12 @@ const schemaResolver = new TypeResolver<OasSchema, ResolveContext>()
 
         if (definedType) return definedType;
         if (propNode) {
+          const extra = getNodeExtraInfo(propNode);
           ctx.extra = ctx.wantRequired
             ? {
-                ...getNodeExtraInfo(propNode).info,
+                ...extra.info,
                 required: propSymbol.isOptional() ? false : true,
+                default: extra.initialValue,
               }
             : getNodeExtraInfo(propNode).info;
         }

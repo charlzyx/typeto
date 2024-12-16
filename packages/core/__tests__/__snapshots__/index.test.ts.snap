@@ -1,0 +1,31 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`removeEmptyComments 应该移除空注释 / should remove empty comments from the input string 1`] = `"another comment"`;
+
+exports[`removeEmptyComments 当没有空注释时应返回原字符串 / should return the original string if no empty comments are present 1`] = `"another comment"`;
+
+exports[`removeEmptyComments 应该移除多行注释中的空行 / should remove empty lines in multi-line comments 1`] = `
+"这是一段描述
+another comment"
+`;
+
+exports[`removeEmptyComments 应该移除单行注释 / should remove single line comments 1`] = `"这是一个注释"`;
+
+exports[`removeEmptyComments 应该处理没有注释的情况 / should handle cases with no comments 1`] = `""`;
+
+exports[`parseAndRemoveAnnotations 应该解析注解并从输入字符串中移除它们 / should parse annotations and remove them from the input string 1`] = `
+{
+  "cleaned": "some text",
+  "parsed": {
+    "flag": true,
+    "title": "Example",
+  },
+}
+`;
+
+exports[`parseAndRemoveAnnotations 当没有注解时应返回空的解析对象和清理后的字符串 / should return empty parsed object and cleaned string if no annotations are present 1`] = `
+{
+  "cleaned": "some text without annotations",
+  "parsed": {},
+}
+`;

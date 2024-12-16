@@ -1,24 +1,12 @@
 import { Project } from "ts-morph";
-import { transformDefinitions, SCHEMA_REF_PREFIX } from "./transformer";
+import { transformDefinitions } from "./transformer";
 import { getEntryNodes } from "./entry";
 import { ISchema } from "@formily/json-schema";
 
-const resolveRefs = (schema: ISchema) => {
-  const seen = new Map();
-
+const clean = (schema: ISchema) => {
   const replacer = (k: string, v: any) => {
     if (k === "x-code") return undefined;
-    let ref = typeof v === "object" ? v["$ref"] : null;
-    if (!ref) return v;
-
-    if (seen.has(ref)) {
-      return { $ref: "#CircleRef" + ref };
-    } else if (ref) {
-      const link = schema[ref.replace(SCHEMA_REF_PREFIX, "")];
-      link.comment = ref;
-      seen.set(ref, link);
-      return link;
-    }
+    return v;
   };
 
   return JSON.parse(JSON.stringify(schema, replacer));
@@ -27,6 +15,16 @@ const resolveRefs = (schema: ISchema) => {
 export const transform = (project: Project) => {
   const { definitions } = getEntryNodes(project);
   const schema = transformDefinitions(definitions);
-  const resolved = resolveRefs(schema);
-  return resolved["Form"];
+  const schemaDefs = clean(schema);
+  const prefix = 'import { ISchema } from "@formily/json-schema";';
+  const reforamt = Object.keys(schemaDefs).map((def) => {
+    return `const ${def}: ISchema = ${JSON.stringify(
+      schemaDefs[def],
+      null,
+      2
+    )};\n`.replace(/"#\w+"/, (m) => {
+      return m.replace(/"/g, "").replace("#", "");
+    });
+  });
+  return [prefix, ...reforamt].join("\n");
 };

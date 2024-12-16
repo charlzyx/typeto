@@ -20,12 +20,7 @@ describe("zod schema tests", () => {
     );
 
     const result = transform(project);
-    expect(result).toContain("str: z.string()");
-    expect(result).toContain("num: z.number()");
-    expect(result).toContain("bool: z.boolean()");
-    expect(result).toContain("nullValue: z.null()");
-    expect(result).toContain("undefinedValue: z.undefined()");
-
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 
@@ -42,11 +37,7 @@ describe("zod schema tests", () => {
     );
 
     const result = transform(project);
-
-    expect(result).toContain('strLiteral: z.literal("hello")');
-    expect(result).toContain("numLiteral: z.literal(42)");
-    expect(result).toContain("boolLiteral: z.literal(true)");
-
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 
@@ -62,13 +53,7 @@ describe("zod schema tests", () => {
     );
 
     const result = transform(project);
-    expect(result).toContain(
-      'z.union([z.literal("active"), z.literal("inactive")])'
-    );
-    expect(result).toContain(
-      'z.union([z.literal("admin"), z.literal("user"), z.literal("guest")])'
-    );
-
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 
@@ -87,9 +72,7 @@ describe("zod schema tests", () => {
     );
 
     const result = transform(project);
-    expect(result).toContain('z.discriminatedUnion("kind"');
-    expect(result).toContain("radius: z.number()");
-    expect(result).toContain("sideLength: z.number()");
+    expect(result).toMatchSnapshot();
 
     project.removeSourceFile(sourceFile);
   });
@@ -108,9 +91,7 @@ describe("zod schema tests", () => {
     );
 
     const result = transform(project);
-    expect(result).toContain("z.intersection([");
-    expect(result).toContain("name: z.string()");
-    expect(result).toContain("age: z.number()");
+    expect(result).toMatchSnapshot();
 
     project.removeSourceFile(sourceFile);
   });
@@ -163,12 +144,7 @@ describe("zod schema tests", () => {
     );
 
     const result = transform(project);
-    expect(result).toContain("AddressSchema");
-    expect(result).toContain("street: z.string()");
-    expect(result).toContain("city: z.string()");
-    expect(result).toContain("address: AddressSchema");
-    expect(result).toContain("tags: z.array(z.string())");
-    expect(result).toContain("contacts: z.array(AddressSchema)");
+    expect(result).toMatchSnapshot();
 
     project.removeSourceFile(sourceFile);
   });
@@ -191,19 +167,7 @@ describe("zod schema tests", () => {
     );
 
     const result = transform(project);
-    // 检查是否正确生成了类型声明
-    expect(result).toContain("EmployeeSchema: z.ZodSchema<EmployeeSchema>");
-    // 检查是否使用了 lazy 进行循环引用处理
-    expect(result).toContain("z.lazy(() =>");
-    // 检查基本字段
-    expect(result).toContain("name: z.string()");
-    // 检查可选字段
-    expect(result).toContain("supervisor: ");
-    expect(result).toContain("optional()");
-    // 检查嵌套结构
-    expect(result).toContain("team: z.object");
-    expect(result).toContain("members: z.array");
-
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 });
