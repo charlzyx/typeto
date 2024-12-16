@@ -1,201 +1,137 @@
 import { OasSchema30 } from "@hyperjump/json-schema/openapi-3-0";
 
-type OutputSchema = OasSchema30 & {
+import { JsonSchemaType } from "@hyperjump/json-schema/lib/common";
+import { getNodeExtraInfo, TypeResolver } from "@typeto/core";
+import { ClassDeclaration, Node, Type, TypeAliasDeclaration } from "ts-morph";
+
+export type OasSchema = OasSchema30 & {
   _code?: string;
 };
 
-import { ClassDeclaration, Node, Type, TypeAliasDeclaration } from "ts-morph";
-import { getNodeExtraInfo } from "@typeto/core";
-
-// import { debugType, collectDebugInfo } from "./debug";
-
 const SCHEMA_REF_PREFIX = "#components/schemas/";
-/**
- * 类型转换的参数接口
- */
-interface ResolveTypeInfo {
-  /** 要转换的 TypeScript 类型 */
-  type: Type;
-  /** 类型定义名称映射表 */
-  defNameMap: WeakMap<ClassDeclaration, string>;
-  /** 额外的 schema 属性 */
-  extra?: Record<string, string | boolean>;
-  /** 循环引用检测集合 */
-  circularRefs?: WeakMap<Type, string>;
-}
 
-const resolveLiteral = (type: Type) => {
-  if (type.isLiteral) {
+type ResolveContext = {
+  extra: Record<string, string | boolean>;
+  refs: WeakMap<Type, string>;
+  defs: WeakMap<Node, string>;
+  wantRequired: boolean;
+};
+
+const consumeExtra = (ctx: ResolveContext) => {
+  const extra = ctx.extra;
+  ctx.extra = {
+    wantRequired: extra.wantRequired,
+  };
+  return extra;
+};
+
+const resolveDefs = (type: Type, ctx: ResolveContext) => {
+  const maybe = type.getSymbol().getValueDeclaration();
+  const has = ctx.defs.has(maybe);
+  if (has) {
+    const extra = consumeExtra(ctx);
     return {
-      const: type.getLiteralValue(),
+      ...extra,
+      $ref: SCHEMA_REF_PREFIX + ctx.defs.get(maybe),
     };
-  } else {
-    return {};
   }
 };
 
-const resolveType = (info: ResolveTypeInfo): OutputSchema => {
-  const {
-    type,
-    defNameMap,
-    extra = {},
-    circularRefs = new WeakMap<Type, string>(),
-  } = info;
-
-  // 输出调试信息,帮助理解类型结构
-  // console.log("\n=== Resolving Type ===", debugType(type));
-
-  // 收集类型的相关信息用于调试
-  // const debug = collectDebugInfo(type, typeNode);
-
-  const base: OutputSchema = {
-    ...extra,
-    _code: type.getText(),
-    ...resolveLiteral(type),
+const primitiveResolve =
+  (basetype: JsonSchemaType) => (type: Type, ctx: ResolveContext) => {
+    const extra = consumeExtra(ctx);
+    return {
+      ...extra,
+      type: basetype,
+      _code: type.getText(),
+    } satisfies OasSchema;
   };
 
-  // 检测并处理循环引用
-  if (circularRefs.has(type)) {
-    return {
-      ...base,
-      $ref: circularRefs.get(type),
-    };
-  }
-  if (type.getSymbol()) {
-    // 检查属性类型是否是已定义的类型
-    const maybeTypeDecl = type.getSymbol().getValueDeclaration();
-    const isDefinedType = defNameMap.has(maybeTypeDecl as ClassDeclaration);
-
-    // 如果是已定义类型,使用引用
-    if (isDefinedType) {
+const schemaResolver = new TypeResolver<OasSchema, ResolveContext>()
+  .before((type, ctx, resolver) => {
+    if (ctx.refs.get(type)) {
+      const extra = consumeExtra(ctx);
       return {
-        ...base,
-        $ref:
-          SCHEMA_REF_PREFIX + defNameMap.get(maybeTypeDecl as ClassDeclaration),
+        ...extra,
+        default: ctx.extra?.initialValue,
+        $ref: ctx.refs.get(type),
       };
+    } else if (type.getSymbol()) {
+      const definedType = resolveDefs(type, ctx);
+      if (definedType) return definedType;
     }
-  }
-
-  // 处理基本类型和字面量类型
-  if (type.isString() || type.isStringLiteral()) {
+  })
+  .string(primitiveResolve("string"))
+  .stringLiteral(primitiveResolve("string"))
+  .boolean(primitiveResolve("boolean"))
+  .booleanLiteral(primitiveResolve("boolean"))
+  .number(primitiveResolve("number"))
+  .numberLiteral(primitiveResolve("number"))
+  .undefined(primitiveResolve("null"))
+  .void(primitiveResolve("null"))
+  .null(primitiveResolve("null"))
+  .array((type, ctx, resovler) => {
+    ctx.refs.set(type, type.getText());
+    const extra = consumeExtra(ctx);
     return {
-      ...base,
-      type: "string",
-    };
-  }
-
-  if (type.isNumber() || type.isNumberLiteral()) {
-    return {
-      ...base,
-      type: "number",
-    };
-  }
-
-  if (type.isBoolean() || type.isBooleanLiteral()) {
-    return {
-      ...base,
-      type: "boolean",
-    };
-  }
-
-  // 处理其他字面量类型
-  if (type.isLiteral()) {
-    return {
-      ...base,
-      type: "string",
-    };
-  }
-
-  // 处理数组类型
-  if (type.isArray()) {
-    return {
-      ...base,
+      ...extra,
       type: "array",
-      items: resolveType({
-        type: type.getArrayElementType(),
-        defNameMap,
-        circularRefs,
-      }),
+      items: resovler.resolve(type.getArrayElementType(), ctx),
     };
-  }
-
-  if (type.isUnion()) {
-    circularRefs.set(type, type.getText());
+  })
+  .union((type, ctx, resolver) => {
+    ctx.refs.set(type, type.getText());
+    const extra = consumeExtra(ctx);
     return {
-      ...base,
-      oneOf: type.getUnionTypes().map((subType) =>
-        resolveType({
-          type: subType,
-          defNameMap,
-          extra,
-          circularRefs,
-        })
-      ),
+      ...extra,
+      oneOf: type
+        .getUnionTypes()
+        .map((subType) => resolver.resolve(subType, ctx)),
     };
-  }
-  if (type.isIntersection()) {
-    circularRefs.set(type, type.getText());
+  })
+  .intersection((type, ctx, resolver) => {
+    ctx.refs.set(type, type.getText());
+    const extra = consumeExtra(ctx);
     return {
-      ...base,
-      allOf: type.getIntersectionTypes().map((subType) => {
-        return resolveType({
-          type: subType,
-          defNameMap,
-          extra,
-          circularRefs,
-        });
-      }),
+      ...extra,
+      allOf: type
+        .getIntersectionTypes()
+        .map((subType) => resolver.resolve(subType, ctx)),
     };
-  }
-
-  // 处理对象类型和交叉类型
-  if (type.isObject()) {
-    circularRefs.set(type, type.getText());
+  })
+  .object((type, ctx, resolver) => {
+    ctx.refs.set(type, type.getText());
+    const extra = consumeExtra(ctx);
     return {
-      ...base,
+      ...extra,
       type: "object",
       properties: type.getProperties().reduce((map, propSymbol) => {
-        // const debug = collectDebugInfo(null, null, propSymbol);
-
-        // 获取属性的声明节点
         const propNode =
           propSymbol.getValueDeclaration() ?? propSymbol.getDeclarations()[0];
-
-        // 获取属性的类型
-        const propType = propNode
+        const porpType = propNode
           ? propSymbol.getTypeAtLocation(propNode)
           : propSymbol.getDeclaredType();
 
-        // 检查属性类型是否是已定义的类型
-        const maybeTypeDecl = propType.getSymbol()?.getValueDeclaration();
-        const isDefinedType =
-          maybeTypeDecl && defNameMap.has(maybeTypeDecl as ClassDeclaration);
+        const definedType = resolveDefs(porpType, ctx);
 
-        // 如果是已定义类型,使用引用
-        if (isDefinedType) {
-          map[propSymbol.getName()] = {
-            $ref:
-              SCHEMA_REF_PREFIX +
-              defNameMap.get(maybeTypeDecl as ClassDeclaration),
-          };
-          return map;
+        if (definedType) return definedType;
+        if (propNode) {
+          ctx.extra = ctx.wantRequired
+            ? {
+                ...getNodeExtraInfo(propNode).info,
+                required: propSymbol.isOptional() ? false : true,
+              }
+            : getNodeExtraInfo(propNode).info;
         }
 
-        // 递归处理属性类型
-        map[propSymbol.getName()] = resolveType({
-          type: propType,
-          defNameMap,
-          circularRefs,
-        });
-        return map;
+        map[propSymbol.getName()] = resolver.resolve(porpType, ctx);
       }, {}),
     };
-  }
-};
+  });
 
 export const transformDefinitions = (definitions: ClassDeclaration[]) => {
-  const defSchema = {} as Record<string, OutputSchema>;
-  const defNameMap = new WeakMap();
+  const defSchema = {} as Record<string, OasSchema>;
+  const defs = new WeakMap();
   for (const def of definitions) {
     let clzName = def.getName();
     // 检查是否存在重复名称
@@ -213,22 +149,30 @@ export const transformDefinitions = (definitions: ClassDeclaration[]) => {
         clzName = baseName + acc;
       }
     }
-    defNameMap.set(def, clzName);
+    defs.set(def, clzName);
   }
 
   for (const def of definitions) {
     const extra = getNodeExtraInfo(def);
-    let clzName = defNameMap.get(def);
-    const schema: OutputSchema = {
+    let clzName = defs.get(def);
+    const circularRefs = new WeakMap();
+    const schema: OasSchema = {
       ...extra.info,
       type: "object",
       properties: def.getProperties().reduce((map, prop) => {
         const extra = getNodeExtraInfo(prop);
-        map[prop.getName()] = resolveType({
-          type: prop.getType(),
-          defNameMap: defNameMap,
-          extra: extra.info,
+        const symbol = prop.getSymbol();
+        const schema = schemaResolver.resolve(prop.getType(), {
+          defs,
+          extra: {
+            ...extra.info,
+            default: extra.initialValue,
+            required: symbol?.isOptional() ? false : true,
+          },
+          refs: circularRefs,
+          wantRequired: true,
         });
+        map[prop.getName()] = schema;
         return map;
       }, {}),
     };
@@ -236,29 +180,36 @@ export const transformDefinitions = (definitions: ClassDeclaration[]) => {
     defSchema[clzName] = schema;
   }
 
-  return { defSchema, defNameMap };
+  return { defSchema, defNameMap: defs };
 };
 
 export const transformOperations = (
   operations: TypeAliasDeclaration[],
   defNameMap: WeakMap<ClassDeclaration, string>
 ) => {
-  const defMap = {} as Record<string, OutputSchema>;
-
+  const defMap = {} as Record<string, OasSchema>;
   for (const operation of operations) {
     const extra = getNodeExtraInfo(operation);
     const typeNode = operation.getTypeNode();
+    const circularRefs = new WeakMap();
+
     if (Node.isTypeLiteral(typeNode)) {
-      const schema: OutputSchema = {
+      const schema: OasSchema = {
         ...extra.info,
         type: "object",
         properties: typeNode.getProperties().reduce((map, prop) => {
           const extra = getNodeExtraInfo(prop);
-          map[prop.getName()] = resolveType({
-            type: prop.getType(),
-            defNameMap,
-            extra: extra.info,
+          const schema = schemaResolver.resolve(prop.getType(), {
+            defs: defNameMap,
+            extra: {
+              ...extra.info,
+              default: extra.initialValue,
+            },
+            refs: circularRefs,
+            wantRequired: false,
           });
+          map[prop.getName()] = schema;
+
           return map;
         }, {}),
       };

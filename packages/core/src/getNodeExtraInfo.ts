@@ -1,10 +1,4 @@
-import {
-  ClassDeclaration,
-  Node,
-  PropertyDeclaration,
-  PropertySignature,
-  TypeAliasDeclaration,
-} from "ts-morph";
+import { Node } from "ts-morph";
 
 export const removeEmptyComments = (input: string): string => {
   // 使用正则表达式去掉空注释
@@ -37,7 +31,11 @@ export const parseAndRemoveAnnotations = (input: string) => {
   while ((match = regex.exec(input)) !== null) {
     const key = match[1];
     const value = match[2] ?? match[3] ?? true;
-    result[key] = value;
+    result[key] =
+      typeof value === "string"
+        ? // 移除 开头和末尾的 " 或 '
+          value.replace(/^("|')/g, "").replace(/("|')$/, "")
+        : value;
     cleanedInput = cleanedInput.replace(match[0], "").trim();
   }
 
@@ -54,42 +52,60 @@ export const parseAndRemoveAnnotations = (input: string) => {
  * @param node 待解析的节点
  * @returns 解析后的节点信息对象
  */
-export const getNodeExtraInfo = (
-  node:
-    | ClassDeclaration
-    | PropertyDeclaration
-    | TypeAliasDeclaration
-    | PropertySignature
-) => {
+export const getNodeExtraInfo = (node: Node) => {
+  let initialValue = Node.isInitializerExpressionGetable(node)
+    ? node.getInitializer()?.getText()
+    : undefined;
+
+  if (initialValue) {
+    try {
+      initialValue = JSON.parse(initialValue);
+    } catch (error) {
+      console.warn(
+        "parer initialValue Expression: ",
+        initialValue,
+        " use text"
+      );
+    }
+  }
   // 获取装饰器信息
-  const decorators =
-    Node.isClassDeclaration(node) || Node.isPropertyDeclaration(node)
-      ? node.getDecorators().reduce((map, dec) => {
-          const propName = dec.getName();
-          const args = dec.getArguments();
-          const propValue = args.map((arg) => arg.getText()).join("/");
-          map[propName] = args.length > 0 ? propValue : true;
-          return map;
-        }, {} as Record<string, string | boolean>)
-      : {};
+  const decorators = Node.isDecoratable(node)
+    ? node.getDecorators().reduce((map, dec) => {
+        const propName = dec.getName();
+        const args = dec.getArguments();
+        const propValue = args
+          // 移除开头和末尾的 " 和 '
+          .map((arg) =>
+            arg
+              .getText()
+              .replace(/^("|')/g, "")
+              .replace(/("|')$/, "")
+          )
+          .join("/");
+        map[propName] = args.length > 0 ? propValue : true;
+        return map;
+      }, {} as Record<string, string | boolean>)
+    : {};
 
   // 获取JSDoc标签信息
-  const jsDocs = node.getJsDocs().reduce((map, doc) => {
-    const tags = doc
-      .getTags()
-      .filter(
-        (tag) =>
-          Node.isJSDocTypeTag(tag) ||
-          Node.isJSDocTag(tag) ||
-          Node.isJSDocDeprecatedTag(tag)
-      )
-      .reduce((tmap, tag) => {
-        tmap[tag.getTagName()] = tag.getCommentText() ?? true;
-        return tmap;
-      }, {});
+  const jsDocs = Node.isJSDocable(node)
+    ? node.getJsDocs().reduce((map, doc) => {
+        const tags = doc
+          .getTags()
+          .filter(
+            (tag) =>
+              Node.isJSDocTypeTag(tag) ||
+              Node.isJSDocTag(tag) ||
+              Node.isJSDocDeprecatedTag(tag)
+          )
+          .reduce((tmap, tag) => {
+            tmap[tag.getTagName()] = tag.getCommentText() ?? true;
+            return tmap;
+          }, {});
 
-    return { ...map, ...tags };
-  }, {} as Record<string, string>);
+        return { ...map, ...tags };
+      }, {} as Record<string, string>)
+    : {};
 
   // 获取前置和后置注释
   const leadingComments = node
@@ -124,6 +140,7 @@ export const getNodeExtraInfo = (
   }
 
   return {
+    initialValue,
     decorators,
     jsDocs,
     leadingComments,

@@ -44,7 +44,6 @@ export class TypeResolver<ResolvedNode, Context> {
     // 所以, 我们把他们排到最后来处理
     keys.sort((a, b) => {
       if (/object|literal/.test(a)) return 1; // 匹配 "object" 或 "literal" 的项排到最后
-      if (/object|literal/.test(b)) return -1; // 匹配 "object" 或 "literal" 的项排到最后
       return 0; // 如果都不匹配，保持原有顺序
     });
 
