@@ -1,5 +1,7 @@
 # typeto
 
+[Try it Online](https://typeto.pages.dev/)
+
 > TypeScript 如是说 / Thus Spoke TypeScript
 
 > 请从 >= 1.1.0 开始使用
