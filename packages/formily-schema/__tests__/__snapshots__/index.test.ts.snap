@@ -1,34 +1,305 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`formily schema tests 应该正确转换用户信息模式 / should transform user information schema correctly 1`] = `
+exports[`formily schema tests 复杂类型的转换 / should transfomer complex 1`] = `
 "import { ISchema } from "@formily/json-schema";
-const Form: ISchema = {
+const Order: ISchema = {
   "type": "object",
   "properties": {
-    "user": User
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "petId": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "quantity": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "shipDate": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "status": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "enum": [
+        {
+          "label": "placed",
+          "value": "placed"
+        },
+        {
+          "label": "approved",
+          "value": "approved"
+        },
+        {
+          "label": "delivered",
+          "value": "delivered"
+        }
+      ]
+    },
+    "complete": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "boolean"
+    }
+  }
+};
+
+const Customer: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "username": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "address": Address
+  }
+};
+
+const Address: ISchema = {
+  "type": "object",
+  "properties": {
+    "street": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "city": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "state": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "zip": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    }
+  }
+};
+
+const Category: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    }
   }
 };
 
 const User: ISchema = {
   "type": "object",
   "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "username": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "firstName": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "lastName": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "email": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "password": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "phone": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "userStatus": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    }
+  }
+};
+
+const Tag: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
     "name": {
       "x-decorator": "FormItem",
       "x-component": "Input",
-      "title": "用户名",
+      "type": "string"
+    }
+  }
+};
+
+const Pet: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "description": "Pet's id",
+      "type": "number"
+    },
+    "category": Category,
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "description": "name with default",
+      "default": "hi",
       "type": "string"
     },
-    "address": Address,
-    "addressList": {
-      "description": "地址列表",
+    "photoUrls": {
+      "description": "photos",
       "type": "array",
       "x-component": "ArrayTable",
       "items": {
         "type": "void",
         "x-component": "ArrayTable.Item",
-        "properties": "#Address"
+        "properties": {
+          "x-decorator": "FormItem",
+          "x-component": "Input",
+          "type": "string"
+        }
       }
+    },
+    "tags": {
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": Tag
+      }
+    },
+    "status": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "enum": [
+        {
+          "label": "placed",
+          "value": "placed"
+        },
+        {
+          "label": "approved",
+          "value": "approved"
+        },
+        {
+          "label": "delivered",
+          "value": "delivered"
+        }
+      ]
     }
+  }
+};
+"
+`;
+
+exports[`formily schema tests 应该正确转换用户信息模式 / should transform user information schema correctly 1`] = `
+"import { ISchema } from "@formily/json-schema";
+const Order: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "petId": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "quantity": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "shipDate": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "status": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "enum": [
+        {
+          "label": "placed",
+          "value": "placed"
+        },
+        {
+          "label": "approved",
+          "value": "approved"
+        },
+        {
+          "label": "delivered",
+          "value": "delivered"
+        }
+      ]
+    },
+    "complete": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "boolean"
+    }
+  }
+};
+
+const Customer: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "username": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "address": Address
   }
 };
 
@@ -58,11 +329,365 @@ const Address: ISchema = {
     }
   }
 };
+
+const Category: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    }
+  }
+};
+
+const User: ISchema = {
+  "type": "object",
+  "properties": {
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "title": "用户名",
+      "type": "string"
+    },
+    "address": Address,
+    "addressList": {
+      "description": "地址列表",
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": Address
+      }
+    }
+  }
+};
+
+const Tag: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    }
+  }
+};
+
+const Pet: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "description": "Pet's id",
+      "type": "number"
+    },
+    "category": Category,
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "description": "name with default",
+      "default": "hi",
+      "type": "string"
+    },
+    "photoUrls": {
+      "description": "photos",
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": {
+          "x-decorator": "FormItem",
+          "x-component": "Input",
+          "type": "string"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": Tag
+      }
+    },
+    "status": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "enum": [
+        {
+          "label": "placed",
+          "value": "placed"
+        },
+        {
+          "label": "approved",
+          "value": "approved"
+        },
+        {
+          "label": "delivered",
+          "value": "delivered"
+        }
+      ]
+    }
+  }
+};
+
+const Form: ISchema = {
+  "type": "object",
+  "properties": {
+    "user": User
+  }
+};
 "
 `;
 
 exports[`formily schema tests 应该处理循环引用 / should handle circular references 1`] = `
 "import { ISchema } from "@formily/json-schema";
+const Order: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "petId": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "quantity": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "shipDate": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "status": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "enum": [
+        {
+          "label": "placed",
+          "value": "placed"
+        },
+        {
+          "label": "approved",
+          "value": "approved"
+        },
+        {
+          "label": "delivered",
+          "value": "delivered"
+        }
+      ]
+    },
+    "complete": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "boolean"
+    }
+  }
+};
+
+const Customer: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "username": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "address": Address
+  }
+};
+
+const Address: ISchema = {
+  "type": "object",
+  "properties": {
+    "street": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "city": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "state": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "zip": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    }
+  }
+};
+
+const Category: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    }
+  }
+};
+
+const User: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "username": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "firstName": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "lastName": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "email": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "password": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "phone": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "userStatus": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    }
+  }
+};
+
+const Tag: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    }
+  }
+};
+
+const Pet: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "description": "Pet's id",
+      "type": "number"
+    },
+    "category": Category,
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "description": "name with default",
+      "default": "hi",
+      "type": "string"
+    },
+    "photoUrls": {
+      "description": "photos",
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": {
+          "x-decorator": "FormItem",
+          "x-component": "Input",
+          "type": "string"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": Tag
+      }
+    },
+    "status": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "enum": [
+        {
+          "label": "placed",
+          "value": "placed"
+        },
+        {
+          "label": "approved",
+          "value": "approved"
+        },
+        {
+          "label": "delivered",
+          "value": "delivered"
+        }
+      ]
+    }
+  }
+};
+
 const Form: ISchema = {
   "type": "object",
   "properties": {
@@ -88,6 +713,237 @@ const B: ISchema = {
 
 exports[`formily schema tests 应该正确转换基本类型 / should transform basic types correctly 1`] = `
 "import { ISchema } from "@formily/json-schema";
+const Order: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "petId": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "quantity": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "shipDate": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "status": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "enum": [
+        {
+          "label": "placed",
+          "value": "placed"
+        },
+        {
+          "label": "approved",
+          "value": "approved"
+        },
+        {
+          "label": "delivered",
+          "value": "delivered"
+        }
+      ]
+    },
+    "complete": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "boolean"
+    }
+  }
+};
+
+const Customer: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "username": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "address": Address
+  }
+};
+
+const Address: ISchema = {
+  "type": "object",
+  "properties": {
+    "street": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "city": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "state": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "zip": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    }
+  }
+};
+
+const Category: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    }
+  }
+};
+
+const User: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "username": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "firstName": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "lastName": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "email": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "password": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "phone": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    },
+    "userStatus": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    }
+  }
+};
+
+const Tag: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "number"
+    },
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "type": "string"
+    }
+  }
+};
+
+const Pet: ISchema = {
+  "type": "object",
+  "properties": {
+    "id": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "description": "Pet's id",
+      "type": "number"
+    },
+    "category": Category,
+    "name": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "description": "name with default",
+      "default": "hi",
+      "type": "string"
+    },
+    "photoUrls": {
+      "description": "photos",
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": {
+          "x-decorator": "FormItem",
+          "x-component": "Input",
+          "type": "string"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": {
+        "type": "void",
+        "x-component": "ArrayTable.Item",
+        "properties": Tag
+      }
+    },
+    "status": {
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "enum": [
+        {
+          "label": "placed",
+          "value": "placed"
+        },
+        {
+          "label": "approved",
+          "value": "approved"
+        },
+        {
+          "label": "delivered",
+          "value": "delivered"
+        }
+      ]
+    }
+  }
+};
+
 const Form: ISchema = {
   "type": "object",
   "properties": {

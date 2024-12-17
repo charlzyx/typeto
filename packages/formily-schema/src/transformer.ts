@@ -159,18 +159,25 @@ const schemaResolver = new TypeResolver<ISchema, ResolveContext>()
     return {
       ...extra,
       type: "object",
-      properties: type.getProperties().reduce((map, propSymbol) => {
-        const propNode =
-          propSymbol.getValueDeclaration() ?? propSymbol.getDeclarations()[0];
-        const porpType = propNode
-          ? propSymbol.getTypeAtLocation(propNode)
-          : propSymbol.getDeclaredType();
-        if (propNode) {
-          ctx.extra = getNodeExtraInfo(propNode).info;
-        }
-        map[propSymbol.getName()] = resolver.resolve(porpType, ctx);
-        return map;
-      }, {} as ISchema["properties"]),
+      properties: type.getProperties().reduce(
+        (map, propSymbol) => {
+          const propNode =
+            propSymbol.getValueDeclaration() ?? propSymbol.getDeclarations()[0];
+          const porpType = propNode
+            ? propSymbol.getTypeAtLocation(propNode)
+            : propSymbol.getDeclaredType();
+          if (propNode) {
+            const extra = getNodeExtraInfo(propNode);
+            ctx.extra = extra.info;
+            if (extra.initialValue) {
+              ctx.extra["default"] = extra.initialValue;
+            }
+          }
+          map[propSymbol.getName()] = resolver.resolve(porpType, ctx);
+          return map;
+        },
+        {} as ISchema["properties"]
+      ),
     };
   });
 
@@ -192,8 +199,12 @@ export const transformDefinitions = (
       type: "object",
       properties: def.getProperties().reduce((map, prop) => {
         const extra = getNodeExtraInfo(prop);
+        const ctxExtra = extra.info;
+        if (extra.initialValue) {
+          ctxExtra["default"] = extra.initialValue;
+        }
         map[prop.getName()] = schemaResolver.resolve(prop.getType(), {
-          extra: extra.info,
+          extra: ctxExtra,
           refs: circularRefs,
           defs: globalDefs,
           self: def.getName(),

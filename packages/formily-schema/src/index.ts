@@ -22,7 +22,7 @@ export const transform = (project: Project) => {
       schemaDefs[def],
       null,
       2
-    )};\n`.replace(/"#\w+"/, (m) => {
+    )};\n`.replace(/"#\w+"/g, (m) => {
       return m.replace(/"/g, "").replace("#", "");
     });
   });

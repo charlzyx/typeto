@@ -1,10 +1,15 @@
-import { ClassDeclaration, Type } from "ts-morph";
-import { TypeResolver } from "@typeto/core";
+import { ClassDeclaration, Node, Type, YieldExpression } from "ts-morph";
+import {
+  TypeResolver,
+  getNodeExtraInfo,
+  getPropNodeTypeRefName,
+} from "@typeto/core";
 
 interface ResolveContext {
   globalRefs: WeakMap<Type, string>;
   selfCircularRefs: WeakMap<Type, string>;
   touched: { current: boolean };
+  self: string;
 }
 
 const zodResolver = new TypeResolver<string, ResolveContext>()
@@ -20,7 +25,7 @@ const zodResolver = new TypeResolver<string, ResolveContext>()
     // 检测循环引用
     if (ctx.globalRefs.has(type)) {
       const has = ctx.globalRefs.get(type);
-      return has;
+      if (has !== ctx.self) return has;
     }
   })
   .null(() => `z.null()`)
@@ -30,7 +35,9 @@ const zodResolver = new TypeResolver<string, ResolveContext>()
   )
   .numberLiteral((type) => `z.literal(${type.getLiteralValue()})`)
   .booleanLiteral((type) => `z.literal(${type.getText()})`)
-  .string(() => `z.string()`)
+  .string((type) => {
+    return `z.string()`;
+  })
   .boolean(() => `z.boolean()`)
   .number(() => `z.number()`)
   .literal((type) => `z.literal(${JSON.stringify(type.getLiteralValue())})`)
@@ -66,6 +73,10 @@ const zodResolver = new TypeResolver<string, ResolveContext>()
         const propNode =
           propSymbol.getValueDeclaration() ?? propSymbol.getDeclarations()[0];
 
+        const extra = getNodeExtraInfo(propNode);
+
+        const message = extra.info["message"] || extra.comment;
+
         // 获取属性的类型
         const propType = propNode
           ? propSymbol.getTypeAtLocation(propNode)
@@ -73,11 +84,18 @@ const zodResolver = new TypeResolver<string, ResolveContext>()
         if (!propType) return "";
 
         let zodType = resolver.resolve(propType, ctx);
+        const stringSpecific = getPropNodeTypeRefName(propNode, true);
+
         // 处理可选属性
         const isOptional = propSymbol.isOptional();
         // 检查是否为 nullish (null 或 undefined)
         const isNullable = propType.isNull() || propType.isNullable();
-
+        if (message) {
+          zodType = zodType.replace("()", `({ message: "${message}"})`);
+        }
+        if (stringSpecific) {
+          zodType = `${zodType}.${stringSpecific}()`;
+        }
         if (isNullable) {
           zodType = `${zodType}.nullable()`;
         }
@@ -105,10 +123,12 @@ export const transformDefinitions = (
       const className = def.getName();
       const selfCircularRefs = new WeakMap<Type, string>();
       const touched = { current: false };
+
       const schema = zodResolver.resolve(def.getType(), {
         globalRefs,
         selfCircularRefs,
         touched,
+        self: def.getName(),
       });
 
       if (touched.current) {

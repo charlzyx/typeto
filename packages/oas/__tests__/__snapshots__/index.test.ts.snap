@@ -29,6 +29,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "Category": {
       "properties": {
         "id": {
+          "format": "int64",
           "type": "number",
         },
         "name": {
@@ -47,6 +48,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "$ref": "#components/schemas/Address",
         },
         "id": {
+          "format": "int64",
           "type": "number",
         },
         "username": {
@@ -66,15 +68,19 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "type": "boolean",
         },
         "id": {
+          "format": "int64",
           "type": "number",
         },
         "petId": {
+          "format": "int64",
           "type": "number",
         },
         "quantity": {
+          "format": "int32",
           "type": "number",
         },
         "shipDate": {
+          "format": "datetime",
           "type": "string",
         },
         "status": {
@@ -110,6 +116,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
         "id": {
           "default": 0,
           "description": "Pet's id",
+          "format": "int64",
           "type": "number",
         },
         "name": {
@@ -157,6 +164,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "Tag": {
       "properties": {
         "id": {
+          "format": "int64",
           "type": "number",
         },
         "name": {
@@ -178,6 +186,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "type": "string",
         },
         "id": {
+          "format": "int64",
           "type": "number",
         },
         "lastName": {
@@ -190,6 +199,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "type": "string",
         },
         "userStatus": {
+          "format": "int32",
           "type": "number",
         },
         "username": {
@@ -265,6 +275,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
                   "type": "string",
                 },
                 "userStatus": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "username": {
@@ -340,6 +351,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
                     "type": "string",
                   },
                   "userStatus": {
+                    "format": "int32",
                     "type": "number",
                   },
                   "username": {
@@ -371,6 +383,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "data": {
@@ -388,6 +401,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "data": {
@@ -425,6 +439,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -436,6 +451,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -478,6 +494,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
         "resp": {
           "properties": {
             "code": {
+              "format": "int32",
               "type": "number",
             },
             "reason": {
@@ -510,6 +527,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -521,6 +539,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -575,6 +594,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -586,6 +606,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -643,6 +664,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -693,6 +715,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -752,6 +775,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -781,6 +805,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -833,6 +858,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -844,6 +870,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -882,6 +909,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -893,6 +921,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -944,6 +973,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "name": {
+                  "default": "hi",
                   "description": "name with default",
                   "type": "string",
                 },
@@ -982,6 +1012,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -993,6 +1024,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -1020,6 +1052,7 @@ schema:
 type: string
 format: binary"
 ,
+          "format": "binary",
           "type": "string",
         },
         "method": {
@@ -1051,6 +1084,7 @@ format: binary"
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -1083,6 +1117,7 @@ format: binary"
         "query": {
           "properties": {
             "name": {
+              "default": "hi",
               "description": "name with default",
               "type": "string",
             },
@@ -1105,6 +1140,7 @@ format: binary"
         "resp": {
           "properties": {
             "code": {
+              "format": "int32",
               "type": "number",
             },
             "reason": {
@@ -1137,6 +1173,7 @@ format: binary"
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -1148,6 +1185,7 @@ format: binary"
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -1159,6 +1197,7 @@ format: binary"
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "data": {
@@ -1199,6 +1238,7 @@ format: binary"
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "data": {
@@ -1213,6 +1253,7 @@ format: binary"
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "data": {
@@ -1227,6 +1268,7 @@ format: binary"
             {
               "properties": {
                 "code": {
+                  "format": "int32",
                   "type": "number",
                 },
                 "reason": {
@@ -1251,6 +1293,7 @@ format: binary"
         "resp": {
           "properties": {
             "code": {
+              "format": "int32",
               "type": "number",
             },
             "data": {

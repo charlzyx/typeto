@@ -1,5 +1,70 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`zod schema tests 复杂组合测试 / should handle complex  1`] = `
+"import { z } from "zod";
+
+export const Order = z.object({
+  id: z.number().int64(),
+  petId: z.number().int64(),
+  quantity: z.number().int32(),
+  shipDate: z.string().datetime(),
+  status: z.union([z.literal("placed"), z.literal("approved"), z.literal("delivered")]),
+  complete: z.boolean()
+});
+
+export const Customer = z.object({
+  id: z.number().int64(),
+  username: z.string(),
+  address: z.object({
+  street: z.string(),
+  city: z.string(),
+  state: z.string(),
+  zip: z.number()
+})
+});
+
+export const Address = z.object({
+  street: z.string(),
+  city: z.string(),
+  state: z.string(),
+  zip: z.number()
+});
+
+export const Category = z.object({
+  id: z.number().int64(),
+  name: z.string()
+});
+
+export const User = z.object({
+  id: z.number().int64(),
+  username: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string(),
+  password: z.string(),
+  phone: z.string(),
+  userStatus: z.number().int32()
+});
+
+export const Tag = z.object({
+  id: z.number().int64(),
+  name: z.string()
+});
+
+export const Pet = z.object({
+  id: z.number({ message: "Pet's id"}).int64(),
+  category: Category,
+  name: z.string({ message: "name with default"}),
+  photoUrls: z.array(z.string({ message: "photos"})),
+  tags: z.array(Tag),
+  status: z.union([z.literal("placed"), z.literal("approved"), z.literal("delivered")])
+});
+
+export const TreeLike: z.ZodSchema<TreeLike> = z.lazy(() =>  z.object({
+  children: z.array(TreeLike)
+}))"
+`;
+
 exports[`zod schema tests 应该正确处理基本类型 / should handle basic types correctly 1`] = `
 "import { z } from "zod";
 

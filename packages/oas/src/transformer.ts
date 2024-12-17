@@ -1,7 +1,11 @@
 import { OasSchema30 } from "@hyperjump/json-schema/openapi-3-0";
 
 import { JsonSchemaType } from "@hyperjump/json-schema/lib/common";
-import { getNodeExtraInfo, TypeResolver } from "@typeto/core";
+import {
+  getNodeExtraInfo,
+  getPropNodeTypeRefName,
+  TypeResolver,
+} from "@typeto/core";
 import { ClassDeclaration, Node, Type, TypeAliasDeclaration } from "ts-morph";
 
 export type OasSchema = OasSchema30 & {
@@ -116,13 +120,20 @@ const schemaResolver = new TypeResolver<OasSchema, ResolveContext>()
         if (definedType) return definedType;
         if (propNode) {
           const extra = getNodeExtraInfo(propNode);
-          ctx.extra = ctx.wantRequired
-            ? {
-                ...extra.info,
-                required: propSymbol.isOptional() ? false : true,
-                default: extra.initialValue,
-              }
-            : getNodeExtraInfo(propNode).info;
+          const typeRefName = getPropNodeTypeRefName(propNode, true);
+          const ctxExtra = extra.info;
+
+          if (typeRefName) {
+            ctxExtra.format = typeRefName;
+          }
+          if (extra.initialValue) {
+            ctxExtra.default = extra.initialValue;
+          }
+          if (ctx.wantRequired && !propSymbol.isOptional()) {
+            ctxExtra.required = true;
+          }
+
+          ctx.extra = ctxExtra;
         }
 
         map[propSymbol.getName()] = resolver.resolve(porpType, ctx);
@@ -163,6 +174,12 @@ export const transformDefinitions = (definitions: ClassDeclaration[]) => {
       type: "object",
       properties: def.getProperties().reduce((map, prop) => {
         const extra = getNodeExtraInfo(prop);
+        const typeRefName = getPropNodeTypeRefName(prop, true);
+
+        if (typeRefName) {
+          extra.info.format = typeRefName;
+        }
+
         const symbol = prop.getSymbol();
         const schema = schemaResolver.resolve(prop.getType(), {
           defs,
@@ -201,6 +218,11 @@ export const transformOperations = (
         type: "object",
         properties: typeNode.getProperties().reduce((map, prop) => {
           const extra = getNodeExtraInfo(prop);
+          const typeRefName = getPropNodeTypeRefName(prop, true);
+
+          if (typeRefName) {
+            extra.info.format = typeRefName;
+          }
           const schema = schemaResolver.resolve(prop.getType(), {
             defs: defNameMap,
             extra: {

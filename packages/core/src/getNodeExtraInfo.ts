@@ -22,6 +22,16 @@ export const removeEmptyComments = (input: string): string => {
   return lines;
 };
 
+export const getPropNodeTypeRefName = (node: Node, smallCaseOnly?: boolean) => {
+  let refName = "";
+  if (Node.isPropertyDeclaration(node) || Node.isPropertySignature(node)) {
+    const typeNode = node.getTypeNode();
+    refName = Node.isTypeReference(typeNode)
+      ? typeNode.getTypeName().getText()
+      : "";
+  }
+  return smallCaseOnly ? (/^[a-z]/.test(refName) ? refName : "") : "";
+};
 export const parseAndRemoveAnnotations = (input: string) => {
   const regex = /@(\w+)(?:\(([^)]+)\)|\s+(\S+))?/g;
   const result: Record<string, string | true> = {};
@@ -70,41 +80,47 @@ export const getNodeExtraInfo = (node: Node) => {
   }
   // 获取装饰器信息
   const decorators = Node.isDecoratable(node)
-    ? node.getDecorators().reduce((map, dec) => {
-        const propName = dec.getName();
-        const args = dec.getArguments();
-        const propValue = args
-          // 移除开头和末尾的 " 和 '
-          .map((arg) =>
-            arg
-              .getText()
-              .replace(/^("|')/g, "")
-              .replace(/("|')$/, "")
-          )
-          .join("/");
-        map[propName] = args.length > 0 ? propValue : true;
-        return map;
-      }, {} as Record<string, string | boolean>)
+    ? node.getDecorators().reduce(
+        (map, dec) => {
+          const propName = dec.getName();
+          const args = dec.getArguments();
+          const propValue = args
+            // 移除开头和末尾的 " 和 '
+            .map((arg) =>
+              arg
+                .getText()
+                .replace(/^("|')/g, "")
+                .replace(/("|')$/, "")
+            )
+            .join("/");
+          map[propName] = args.length > 0 ? propValue : true;
+          return map;
+        },
+        {} as Record<string, string | boolean>
+      )
     : {};
 
   // 获取JSDoc标签信息
   const jsDocs = Node.isJSDocable(node)
-    ? node.getJsDocs().reduce((map, doc) => {
-        const tags = doc
-          .getTags()
-          .filter(
-            (tag) =>
-              Node.isJSDocTypeTag(tag) ||
-              Node.isJSDocTag(tag) ||
-              Node.isJSDocDeprecatedTag(tag)
-          )
-          .reduce((tmap, tag) => {
-            tmap[tag.getTagName()] = tag.getCommentText() ?? true;
-            return tmap;
-          }, {});
+    ? node.getJsDocs().reduce(
+        (map, doc) => {
+          const tags = doc
+            .getTags()
+            .filter(
+              (tag) =>
+                Node.isJSDocTypeTag(tag) ||
+                Node.isJSDocTag(tag) ||
+                Node.isJSDocDeprecatedTag(tag)
+            )
+            .reduce((tmap, tag) => {
+              tmap[tag.getTagName()] = tag.getCommentText() ?? true;
+              return tmap;
+            }, {});
 
-        return { ...map, ...tags };
-      }, {} as Record<string, string>)
+          return { ...map, ...tags };
+        },
+        {} as Record<string, string>
+      )
     : {};
 
   // 获取前置和后置注释
