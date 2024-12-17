@@ -1,5 +1,27 @@
 # Changelog
 
+## v1.1.2
+
+[compare changes](https://github.com/charlzyx/typeto/compare/1.1.1...v1.1.2)
+
+### 🩹 修复问题 / Fixes
+
+- **oas:** 🩹 missing return map ([45a9477](https://github.com/charlzyx/typeto/commit/45a9477))
+
+### 💅 代码重构 / Refactors
+
+- **gocz:** 💅 move gocz -> charlzyx/gocz ([1f19aef](https://github.com/charlzyx/typeto/commit/1f19aef))
+
+### 📖 文档更新 / Documentation
+
+- With try it online playground ([5742b17](https://github.com/charlzyx/typeto/commit/5742b17))
+- Update typo in README.md ([827b153](https://github.com/charlzyx/typeto/commit/827b153))
+
+### ❤️ Contributors
+
+- Charlzyx <charlzyx@qq.com>
+- ChaoGPT <charlzyx@qq.com>
+
 ## v1.1.1
 
 [compare changes](https://github.com/charlzyx/typeto/compare/1.1.0...v1.1.1)
