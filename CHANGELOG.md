@@ -1,6 +1,5 @@
 # Changelog
 
-
 ## v1.1.1
 
 [compare changes](https://github.com/charlzyx/typeto/compare/1.1.0...v1.1.1)
@@ -18,7 +17,6 @@
 - Charlzyx <charlzyx@qq.com>
 
 ## v1.1.0
-
 
 ### 🚀 增强功能 / Enhancements
 
@@ -49,7 +47,7 @@
 
 - Changeset bump. ([15881f8](https://github.com/charlzyx/typeto/commit/15881f8))
 - Bump version by local script. ([f0baa4d](https://github.com/charlzyx/typeto/commit/f0baa4d))
-- Change gh actions.  use changelogen replace changesets . ([968031c](https://github.com/charlzyx/typeto/commit/968031c))
+- Change gh actions. use changelogen replace changesets . ([968031c](https://github.com/charlzyx/typeto/commit/968031c))
 - 🤖 release v1.0.0-alpha.0 ([dbad225](https://github.com/charlzyx/typeto/commit/dbad225))
 
 ### 🚧 未完成 / Work in Progress
@@ -60,4 +58,3 @@
 ### ❤️ Contributors
 
 - Charlzyx <charlzyx@qq.com>
-

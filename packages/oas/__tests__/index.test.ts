@@ -1,9 +1,22 @@
 import { describe, expect, it } from "bun:test";
 import { Project } from "ts-morph";
 import { transform } from "../src/index";
+import { readFileSync } from "node:fs";
+import * as path from "node:path";
+
+const full = readFileSync(
+  path.resolve(import.meta.dir, "./full.ts")
+).toString();
 
 describe("to-oas transformer", () => {
   const project = new Project({});
+
+  it("全量测试 / Full Test", () => {
+    const sourceFile = project.createSourceFile("temp/full.ts", full);
+    const result = transform(project);
+    expect(result).toMatchSnapshot();
+    project.removeSourceFile(sourceFile);
+  });
 
   it("应该正确处理多种注释 /  should transform extran info correctly", () => {
     const sourceFile = project.createSourceFile(
@@ -39,59 +52,7 @@ describe("to-oas transformer", () => {
     );
 
     const result = transform(project);
-    expect(result).toEqual({
-      operations: {
-        test: {
-          Where: "TypeAlias",
-          type: "object",
-          properties: {
-            url: {
-              description: "interesting",
-              type: "string",
-            },
-            basic: {
-              Where: "覆盖情况",
-              $ref: "#components/schemas/BasicType",
-            },
-            array: {
-              description: "这种呢",
-              type: "array",
-              items: {
-                $ref: "#components/schemas/BasicType",
-              },
-            },
-          },
-        },
-      },
-      definitions: {
-        BasicType: {
-          Where: "ClassDecorator",
-          type: "object",
-          properties: {
-            id: {
-              Where: "property Decorator",
-              type: "number",
-            },
-            name: {
-              Where: "before",
-              type: "string",
-            },
-            isActive: {
-              Where: "after",
-              type: "boolean",
-            },
-            tags: {
-              Where: "JSDOC",
-              type: "array",
-              items: {
-                type: "string",
-              },
-            },
-          },
-          required: ["id", "isActive", "tags"],
-        },
-      },
-    });
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 
@@ -110,19 +71,7 @@ describe("to-oas transformer", () => {
     );
 
     const result = transform(project);
-    expect(result.definitions.BasicType).toEqual({
-      type: "object",
-      required: ["id", "name", "isActive", "tags"],
-      properties: {
-        id: { type: "number" },
-        name: { type: "string" },
-        isActive: { type: "boolean" },
-        tags: {
-          type: "array",
-          items: { type: "string" },
-        },
-      },
-    });
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 
@@ -147,22 +96,7 @@ describe("to-oas transformer", () => {
     );
 
     const result = transform(project);
-    expect(result.definitions.User).toEqual({
-      description: "用户实体",
-      type: "object",
-      required: ["id", "name"],
-      properties: {
-        id: {
-          description: "用户ID",
-          type: "number",
-        },
-        name: {
-          description: "用户名",
-          type: "string",
-        },
-      },
-    });
-    expect(result.definitions.Hidden).toBe(undefined);
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 
@@ -191,19 +125,7 @@ describe("to-oas transformer", () => {
     );
 
     const result = transform(project);
-    expect(result.definitions.Company).toEqual({
-      type: "object",
-      required: ["name", "address", "contact", "branches"],
-      properties: {
-        name: { type: "string" },
-        address: { $ref: "#components/schemas/Address" },
-        contact: { $ref: "#components/schemas/Contact" },
-        branches: {
-          type: "array",
-          items: { $ref: "#components/schemas/Address" },
-        },
-      },
-    });
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 
@@ -243,31 +165,7 @@ describe("to-oas transformer", () => {
     );
 
     const result = transform(project);
-    expect(result.definitions.UserConfig).toEqual({
-      description: "用户配置实体",
-      entity: true,
-      type: "object",
-      required: ["id", "createdAt", "options"],
-      properties: {
-        id: {
-          title: "配置ID",
-          primary: true,
-          description: "唯一标识符",
-          type: "number",
-        },
-        createdAt: {
-          description: "创建时间",
-          format: "date-time",
-          type: "string",
-        },
-        options: {
-          description: "配置项",
-          deprecated: true,
-          type: "array",
-          items: { type: "string" },
-        },
-      },
-    });
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 
@@ -293,33 +191,7 @@ describe("to-oas transformer", () => {
     );
 
     const result = transform(project);
-    expect(result.definitions.Settings).toEqual({
-      type: "object",
-      required: ["port", "host", "debug", "tags"],
-      properties: {
-        port: {
-          description: "默认端口",
-          type: "number",
-          default: 3000,
-        },
-        host: {
-          description: "默认主机",
-          type: "string",
-          default: "localhost",
-        },
-        debug: {
-          description: "是否开启调试",
-          type: "boolean",
-          default: false,
-        },
-        tags: {
-          description: "默认标签",
-          type: "array",
-          items: { type: "string" },
-          default: ["default"],
-        },
-      },
-    });
+    expect(result).toMatchSnapshot();
     project.removeSourceFile(sourceFile);
   });
 });

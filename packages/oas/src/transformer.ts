@@ -126,6 +126,7 @@ const schemaResolver = new TypeResolver<OasSchema, ResolveContext>()
         }
 
         map[propSymbol.getName()] = resolver.resolve(porpType, ctx);
+        return map;
       }, {}),
     };
   });

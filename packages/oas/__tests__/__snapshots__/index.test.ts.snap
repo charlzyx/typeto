@@ -1,0 +1,1540 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to-oas transformer 全量测试 / Full Test 1`] = `
+{
+  "definitions": {
+    "Address": {
+      "properties": {
+        "city": {
+          "type": "string",
+        },
+        "state": {
+          "type": "string",
+        },
+        "street": {
+          "type": "string",
+        },
+        "zip": {
+          "type": "number",
+        },
+      },
+      "required": [
+        "street",
+        "city",
+        "state",
+        "zip",
+      ],
+      "type": "object",
+    },
+    "Category": {
+      "properties": {
+        "id": {
+          "type": "number",
+        },
+        "name": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "name",
+      ],
+      "type": "object",
+    },
+    "Customer": {
+      "properties": {
+        "address": {
+          "$ref": "#components/schemas/Address",
+        },
+        "id": {
+          "type": "number",
+        },
+        "username": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "username",
+        "address",
+      ],
+      "type": "object",
+    },
+    "Order": {
+      "properties": {
+        "complete": {
+          "type": "boolean",
+        },
+        "id": {
+          "type": "number",
+        },
+        "petId": {
+          "type": "number",
+        },
+        "quantity": {
+          "type": "number",
+        },
+        "shipDate": {
+          "type": "string",
+        },
+        "status": {
+          "oneOf": [
+            {
+              "type": "string",
+            },
+            {
+              "type": "string",
+            },
+            {
+              "type": "string",
+            },
+          ],
+        },
+      },
+      "required": [
+        "id",
+        "petId",
+        "quantity",
+        "shipDate",
+        "status",
+        "complete",
+      ],
+      "type": "object",
+    },
+    "Pet": {
+      "properties": {
+        "category": {
+          "$ref": "#components/schemas/Category",
+          "description": "getJsDocs() cannot see me// but getLeadingCommentRanges/getTrailingCommentRanges can do it!",
+        },
+        "id": {
+          "default": 0,
+          "description": "Pet's id",
+          "type": "number",
+        },
+        "name": {
+          "default": "hi",
+          "description": "name with default",
+          "type": "string",
+        },
+        "photoUrls": {
+          "description": "photos",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "status": {
+          "oneOf": [
+            {
+              "type": "string",
+            },
+            {
+              "type": "string",
+            },
+            {
+              "type": "string",
+            },
+          ],
+        },
+        "tags": {
+          "items": {
+            "$ref": "#components/schemas/Tag",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "id",
+        "category",
+        "name",
+        "photoUrls",
+        "tags",
+        "status",
+      ],
+      "type": "object",
+    },
+    "Tag": {
+      "properties": {
+        "id": {
+          "type": "number",
+        },
+        "name": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "name",
+      ],
+      "type": "object",
+    },
+    "User": {
+      "properties": {
+        "email": {
+          "type": "string",
+        },
+        "firstName": {
+          "type": "string",
+        },
+        "id": {
+          "type": "number",
+        },
+        "lastName": {
+          "type": "string",
+        },
+        "password": {
+          "type": "string",
+        },
+        "phone": {
+          "type": "string",
+        },
+        "userStatus": {
+          "type": "number",
+        },
+        "username": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "username",
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "phone",
+        "userStatus",
+      ],
+      "type": "object",
+    },
+  },
+  "operations": {
+    "createPet": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "createUser": {
+      "properties": {
+        "body": {
+          "allOf": [
+            {
+              "properties": {
+                "email": {
+                  "type": "string",
+                },
+                "firstName": {
+                  "type": "string",
+                },
+                "lastName": {
+                  "type": "string",
+                },
+                "password": {
+                  "type": "string",
+                },
+                "phone": {
+                  "type": "string",
+                },
+                "userStatus": {
+                  "type": "number",
+                },
+                "username": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "password": {
+                  "type": "string",
+                },
+                "username": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "method": {
+          "type": "string",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/User",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/User",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "createUserList": {
+      "properties": {
+        "body": {
+          "items": {
+            "allOf": [
+              {
+                "properties": {
+                  "email": {
+                    "type": "string",
+                  },
+                  "firstName": {
+                    "type": "string",
+                  },
+                  "lastName": {
+                    "type": "string",
+                  },
+                  "password": {
+                    "type": "string",
+                  },
+                  "phone": {
+                    "type": "string",
+                  },
+                  "userStatus": {
+                    "type": "number",
+                  },
+                  "username": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+              {
+                "properties": {
+                  "password": {
+                    "type": "string",
+                  },
+                  "username": {
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            ],
+          },
+          "type": "array",
+        },
+        "method": {
+          "type": "string",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "data": {
+                  "items": {
+                    "$ref": "#components/schemas/User",
+                  },
+                  "type": "array",
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "data": {
+                  "$ref": "User[]",
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "deleteOrder": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "orderId": {
+              "type": "number",
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "deletePet": {
+      "deprecated": "in",
+      "description": "line",
+      "properties": {
+        "headers": {
+          "properties": {
+            "api_key": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "petId": {
+              "type": "number",
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "properties": {
+            "code": {
+              "type": "number",
+            },
+            "reason": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "deleteUser": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "username": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "findPetByID": {
+      "deprecated": "in js doc",
+      "description": "js doc",
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "petId": {
+              "type": "number",
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "findPetByStatus": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "query": {
+          "oneOf": [
+            {
+              "type": "string",
+            },
+            {
+              "type": "string",
+            },
+            {
+              "type": "string",
+            },
+          ],
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "findPetByTags": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "query": {
+          "items": {
+            "$ref": "#components/schemas/Tag",
+          },
+          "type": "array",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "getInventory": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "resp": {
+          "properties": {
+            "approved": {
+              "type": "null",
+            },
+            "delivered": {
+              "type": "null",
+            },
+            "placed": {
+              "type": "null",
+            },
+          },
+          "type": "object",
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "getOrderById": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "orderId": {
+              "type": "number",
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/Order",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/Order",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "getUserByName": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "username": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/User",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/User",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "placeOrder": {
+      "properties": {
+        "body": {
+          "$ref": "#components/schemas/Order",
+        },
+        "method": {
+          "type": "string",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/Order",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "tryCircleRef": {
+      "properties": {
+        "body": {
+          "properties": {
+            "children": {
+              "items": {
+                "$ref": "TreeLike<{ name: string; }>",
+              },
+              "type": "array",
+            },
+            "id": {
+              "type": "number",
+            },
+          },
+          "type": "object",
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "updatePet": {
+      "properties": {
+        "body": {
+          "allOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/Category",
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "name": {
+                  "description": "name with default",
+                  "type": "string",
+                },
+                "photoUrls": {
+                  "$ref": "string[]",
+                  "description": "photos",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "method": {
+          "type": "string",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "updatePetImage": {
+      "properties": {
+        "body": {
+          "description": 
+"requestBody:
+content:
+application/octet-stream:
+schema:
+type: string
+format: binary"
+,
+          "type": "string",
+        },
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "petId": {
+              "type": "number",
+            },
+          },
+          "type": "object",
+        },
+        "query": {
+          "properties": {},
+          "type": "object",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "$ref": "#components/schemas/Pet",
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "updatePetWithForm": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "petId": {
+              "type": "number",
+            },
+          },
+          "type": "object",
+        },
+        "query": {
+          "properties": {
+            "name": {
+              "description": "name with default",
+              "type": "string",
+            },
+            "status": {
+              "oneOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "string",
+                },
+              ],
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "properties": {
+            "code": {
+              "type": "number",
+            },
+            "reason": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "updateUser": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "path": {
+          "properties": {
+            "username": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "data": {
+                  "type": "string",
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "userLogin": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "query": {
+          "properties": {
+            "password": {
+              "type": "string",
+            },
+            "username": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "resp": {
+          "oneOf": [
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "data": {
+                  "type": "string",
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "data": {
+                  "type": "string",
+                },
+                "message": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+            {
+              "properties": {
+                "code": {
+                  "type": "number",
+                },
+                "reason": {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "userLogout": {
+      "properties": {
+        "method": {
+          "type": "string",
+        },
+        "resp": {
+          "properties": {
+            "code": {
+              "type": "number",
+            },
+            "data": {
+              "type": "string",
+            },
+            "message": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "url": {
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+  },
+}
+`;
+
+exports[`to-oas transformer 应该正确处理多种注释 /  should transform extran info correctly 1`] = `
+{
+  "definitions": {
+    "BasicType": {
+      "Where": "ClassDecorator",
+      "properties": {
+        "id": {
+          "Where": "property Decorator",
+          "type": "number",
+        },
+        "isActive": {
+          "Where": "after",
+          "type": "boolean",
+        },
+        "name": {
+          "Where": "before",
+          "type": "string",
+        },
+        "tags": {
+          "Where": "JSDOC",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "id",
+        "isActive",
+        "tags",
+      ],
+      "type": "object",
+    },
+  },
+  "operations": {
+    "test": {
+      "Where": "TypeAlias",
+      "properties": {
+        "array": {
+          "description": "这种呢",
+          "items": {
+            "$ref": "#components/schemas/BasicType",
+          },
+          "type": "array",
+        },
+        "basic": {
+          "$ref": "#components/schemas/BasicType",
+          "Where": "覆盖情况",
+        },
+        "url": {
+          "description": "interesting",
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+  },
+}
+`;
+
+exports[`to-oas transformer 应该正确转换基本类型定义 / should transform basic type definitions correctly 1`] = `
+{
+  "definitions": {
+    "BasicType": {
+      "properties": {
+        "id": {
+          "type": "number",
+        },
+        "isActive": {
+          "type": "boolean",
+        },
+        "name": {
+          "type": "string",
+        },
+        "tags": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "id",
+        "name",
+        "isActive",
+        "tags",
+      ],
+      "type": "object",
+    },
+  },
+  "operations": {},
+}
+`;
+
+exports[`to-oas transformer 应该正确处理类的注释和装饰器 / should handle class comments and decorators correctly 1`] = `
+{
+  "definitions": {
+    "User": {
+      "description": "用户实体",
+      "properties": {
+        "id": {
+          "description": "用户ID",
+          "type": "number",
+        },
+        "name": {
+          "description": "用户名",
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "name",
+      ],
+      "type": "object",
+    },
+  },
+  "operations": {},
+}
+`;
+
+exports[`to-oas transformer 应该正确处理嵌套对象的类型转换 / should transform nested object types correctly 1`] = `
+{
+  "definitions": {
+    "Address": {
+      "properties": {
+        "city": {
+          "type": "string",
+        },
+        "street": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "city",
+        "street",
+      ],
+      "type": "object",
+    },
+    "Company": {
+      "properties": {
+        "address": {
+          "$ref": "#components/schemas/Address",
+        },
+        "branches": {
+          "items": {
+            "$ref": "#components/schemas/Address",
+          },
+          "type": "array",
+        },
+        "contact": {
+          "$ref": "#components/schemas/Contact",
+        },
+        "name": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "name",
+        "address",
+        "contact",
+        "branches",
+      ],
+      "type": "object",
+    },
+    "Contact": {
+      "properties": {
+        "email": {
+          "type": "string",
+        },
+        "phone": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "email",
+        "phone",
+      ],
+      "type": "object",
+    },
+  },
+  "operations": {},
+}
+`;
+
+exports[`to-oas transformer 应该正确处理复杂的装饰器和注释组合 / should handle complex decorator and comment combinations 1`] = `
+{
+  "definitions": {
+    "UserConfig": {
+      "description": "用户配置实体",
+      "entity": true,
+      "properties": {
+        "createdAt": {
+          "description": "创建时间",
+          "format": "date-time",
+          "type": "string",
+        },
+        "id": {
+          "description": "唯一标识符",
+          "primary": true,
+          "title": "配置ID",
+          "type": "number",
+        },
+        "options": {
+          "deprecated": true,
+          "description": "配置项",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "options",
+      ],
+      "type": "object",
+    },
+  },
+  "operations": {},
+}
+`;
+
+exports[`to-oas transformer 应该正确处理默认值 / should handle default values correctly 1`] = `
+{
+  "definitions": {
+    "Settings": {
+      "properties": {
+        "debug": {
+          "default": false,
+          "description": "是否开启调试",
+          "type": "boolean",
+        },
+        "host": {
+          "default": "localhost",
+          "description": "默认主机",
+          "type": "string",
+        },
+        "port": {
+          "default": 3000,
+          "description": "默认端口",
+          "type": "number",
+        },
+        "tags": {
+          "default": [
+            "default",
+          ],
+          "description": "默认标签",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "port",
+        "host",
+        "debug",
+        "tags",
+      ],
+      "type": "object",
+    },
+  },
+  "operations": {},
+}
+`;
