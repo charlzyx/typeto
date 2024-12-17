@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v1.1.1
+
+[compare changes](https://github.com/charlzyx/typeto/compare/1.1.0...v1.1.1)
+
+### 🩹 修复问题 / Fixes
+
+- **oas:** 🩹 resolveDefs getSymbol undefined ([365134e](https://github.com/charlzyx/typeto/commit/365134e))
+
+### 📖 文档更新 / Documentation
+
+- **README update:** 📖 append new packages to readme ([fd5490b](https://github.com/charlzyx/typeto/commit/fd5490b))
+
+### ❤️ Contributors
+
+- Charlzyx <charlzyx@qq.com>
+
 ## v1.1.0
 
 

@@ -26,7 +26,7 @@ const consumeExtra = (ctx: ResolveContext) => {
 };
 
 const resolveDefs = (type: Type, ctx: ResolveContext) => {
-  const maybe = type.getSymbol().getValueDeclaration();
+  const maybe = type.getSymbol()?.getValueDeclaration();
   const has = ctx.defs.has(maybe);
   if (has) {
     const extra = consumeExtra(ctx);
