@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.1.3
+
+[compare changes](https://github.com/charlzyx/typeto/compare/v1.1.2...v1.1.3)
+
+### 🩹 修复问题 / Fixes
+
+- 🩹 oas/zod fix, and enhance fromily-schema/zod/oas ([66e6bed](https://github.com/charlzyx/typeto/commit/66e6bed))
+
+### ❤️ Contributors
+
+- Charlzyx <charlzyx@qq.com>
+
 ## v1.1.2
 
 [compare changes](https://github.com/charlzyx/typeto/compare/1.1.1...v1.1.2)
