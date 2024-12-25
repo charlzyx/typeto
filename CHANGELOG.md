@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.1.4
+
+[compare changes](https://github.com/charlzyx/typeto/compare/v1.1.3...v1.1.4)
+
+### 🩹 修复问题 / Fixes
+
+- **oas:** 🩹 fix missing literal in oas ([3399223](https://github.com/charlzyx/typeto/commit/3399223))
+
+### 📖 文档更新 / Documentation
+
+- 📖 update links ([d4510d3](https://github.com/charlzyx/typeto/commit/d4510d3))
+
+### ❤️ Contributors
+
+- Charlzyx <charlzyx@qq.com>
+
 ## v1.1.3
 
 [compare changes](https://github.com/charlzyx/typeto/compare/v1.1.2...v1.1.3)
