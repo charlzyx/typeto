@@ -44,8 +44,15 @@ const resolveDefs = (type: Type, ctx: ResolveContext) => {
 const primitiveResolve =
   (basetype: JsonSchemaType) => (type: Type, ctx: ResolveContext) => {
     const extra = consumeExtra(ctx);
+    const literal = {
+      const: undefined,
+    };
+    if (type.isLiteral()) {
+      literal.const = type.getLiteralValue();
+    }
     return {
       ...extra,
+      ...literal,
       type: basetype,
       _code: type.getText(),
     } satisfies OasSchema;

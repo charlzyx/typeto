@@ -86,12 +86,15 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
         "status": {
           "oneOf": [
             {
+              "const": "placed",
               "type": "string",
             },
             {
+              "const": "approved",
               "type": "string",
             },
             {
+              "const": "delivered",
               "type": "string",
             },
           ],
@@ -134,12 +137,15 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
         "status": {
           "oneOf": [
             {
+              "const": "placed",
               "type": "string",
             },
             {
+              "const": "approved",
               "type": "string",
             },
             {
+              "const": "delivered",
               "type": "string",
             },
           ],
@@ -223,6 +229,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "createPet": {
       "properties": {
         "method": {
+          "const": "PUT",
           "type": "string",
         },
         "resp": {
@@ -248,6 +255,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/pet",
           "type": "string",
         },
       },
@@ -298,6 +306,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "method": {
+          "const": "POST",
           "type": "string",
         },
         "resp": {
@@ -323,6 +332,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/user",
           "type": "string",
         },
       },
@@ -376,6 +386,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "type": "array",
         },
         "method": {
+          "const": "POST",
           "type": "string",
         },
         "resp": {
@@ -416,6 +427,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/user/createWithList",
           "type": "string",
         },
       },
@@ -424,6 +436,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "deleteOrder": {
       "properties": {
         "method": {
+          "const": "DELETE",
           "type": "string",
         },
         "path": {
@@ -463,6 +476,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/store/order/:orderId",
           "type": "string",
         },
       },
@@ -481,6 +495,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "type": "object",
         },
         "method": {
+          "const": "DELETE",
           "type": "string",
         },
         "path": {
@@ -504,6 +519,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "type": "object",
         },
         "url": {
+          "const": "{{SERVER}}/pet/:petId",
           "type": "string",
         },
       },
@@ -512,6 +528,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "deleteUser": {
       "properties": {
         "method": {
+          "const": "DELETE",
           "type": "string",
         },
         "path": {
@@ -551,6 +568,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/user/:username",
           "type": "string",
         },
       },
@@ -561,6 +579,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
       "description": "js doc",
       "properties": {
         "method": {
+          "const": "GET",
           "type": "string",
         },
         "path": {
@@ -618,6 +637,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/:petId",
           "type": "string",
         },
       },
@@ -626,17 +646,21 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "findPetByStatus": {
       "properties": {
         "method": {
+          "const": "GET",
           "type": "string",
         },
         "query": {
           "oneOf": [
             {
+              "const": "placed",
               "type": "string",
             },
             {
+              "const": "approved",
               "type": "string",
             },
             {
+              "const": "delivered",
               "type": "string",
             },
           ],
@@ -676,6 +700,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/findByStatus",
           "type": "string",
         },
       },
@@ -684,6 +709,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "findPetByTags": {
       "properties": {
         "method": {
+          "const": "GET",
           "type": "string",
         },
         "query": {
@@ -727,6 +753,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/findByTags",
           "type": "string",
         },
       },
@@ -735,6 +762,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "getInventory": {
       "properties": {
         "method": {
+          "const": "GET",
           "type": "string",
         },
         "resp": {
@@ -752,6 +780,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "type": "object",
         },
         "url": {
+          "const": "{{SERVER}}/store/inventory",
           "type": "string",
         },
       },
@@ -760,6 +789,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "getOrderById": {
       "properties": {
         "method": {
+          "const": "GET",
           "type": "string",
         },
         "path": {
@@ -817,6 +847,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/store/order/:orderId",
           "type": "string",
         },
       },
@@ -825,6 +856,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
     "getUserByName": {
       "properties": {
         "method": {
+          "const": "GET",
           "type": "string",
         },
         "path": {
@@ -882,6 +914,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/user/:username",
           "type": "string",
         },
       },
@@ -893,6 +926,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "$ref": "#components/schemas/Order",
         },
         "method": {
+          "const": "POST",
           "type": "string",
         },
         "resp": {
@@ -933,6 +967,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/store/order",
           "type": "string",
         },
       },
@@ -955,6 +990,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           "type": "object",
         },
         "url": {
+          "const": "TEST",
           "type": "string",
         },
       },
@@ -987,6 +1023,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "method": {
+          "const": "POST",
           "type": "string",
         },
         "resp": {
@@ -1036,6 +1073,7 @@ exports[`to-oas transformer 全量测试 / Full Test 1`] = `
           ],
         },
         "url": {
+          "const": "{{SERVER}}/pet",
           "type": "string",
         },
       },
@@ -1056,6 +1094,7 @@ format: binary"
           "type": "string",
         },
         "method": {
+          "const": "POST",
           "type": "string",
         },
         "path": {
@@ -1096,6 +1135,7 @@ format: binary"
           ],
         },
         "url": {
+          "const": "{{SERVER}}/pet/:petId/uploadImage",
           "type": "string",
         },
       },
@@ -1104,6 +1144,7 @@ format: binary"
     "updatePetWithForm": {
       "properties": {
         "method": {
+          "const": "POST",
           "type": "string",
         },
         "path": {
@@ -1124,12 +1165,15 @@ format: binary"
             "status": {
               "oneOf": [
                 {
+                  "const": "placed",
                   "type": "string",
                 },
                 {
+                  "const": "approved",
                   "type": "string",
                 },
                 {
+                  "const": "delivered",
                   "type": "string",
                 },
               ],
@@ -1150,6 +1194,7 @@ format: binary"
           "type": "object",
         },
         "url": {
+          "const": "{{SERVER}}/pet/:petId",
           "type": "string",
         },
       },
@@ -1158,6 +1203,7 @@ format: binary"
     "updateUser": {
       "properties": {
         "method": {
+          "const": "PUT",
           "type": "string",
         },
         "path": {
@@ -1212,6 +1258,7 @@ format: binary"
           ],
         },
         "url": {
+          "const": "{{SERVER}}/user/:username",
           "type": "string",
         },
       },
@@ -1220,6 +1267,7 @@ format: binary"
     "userLogin": {
       "properties": {
         "method": {
+          "const": "GET",
           "type": "string",
         },
         "query": {
@@ -1280,6 +1328,7 @@ format: binary"
           ],
         },
         "url": {
+          "const": "{{SERVER}}/user/login",
           "type": "string",
         },
       },
@@ -1288,6 +1337,7 @@ format: binary"
     "userLogout": {
       "properties": {
         "method": {
+          "const": "GET",
           "type": "string",
         },
         "resp": {
@@ -1306,6 +1356,7 @@ format: binary"
           "type": "object",
         },
         "url": {
+          "const": "{{SERVER}}/user/logout",
           "type": "string",
         },
       },
@@ -1365,6 +1416,7 @@ exports[`to-oas transformer 应该正确处理多种注释 /  should transform e
           "Where": "覆盖情况",
         },
         "url": {
+          "const": "somthing",
           "description": "interesting",
           "type": "string",
         },
